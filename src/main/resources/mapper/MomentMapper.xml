@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aurora.dao.MomentMapper">
+  <resultMap id="BaseResultMap" type="com.aurora.domain.Moment">
+    <constructor>
+      <idArg column="id" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="user_id" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="sharing_id" javaType="java.lang.String" jdbcType="VARCHAR" />
+    </constructor>
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.aurora.domain.MomentWithBLOBs">
+    <constructor>
+      <idArg column="id" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="user_id" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="sharing_id" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="content" javaType="_byte[]" jdbcType="VARBINARY" />
+      <arg column="images" javaType="_byte[]" jdbcType="LONGVARBINARY" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, user_id, sharing_id
+  </sql>
+  <sql id="Blob_Column_List">
+    content, images
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from moments
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from moments
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.aurora.domain.MomentWithBLOBs">
+    insert into moments (id, user_id, sharing_id, 
+      content, images)
+    values (#{id,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, #{sharingId,jdbcType=VARCHAR}, 
+      #{content,jdbcType=VARBINARY}, #{images,jdbcType=LONGVARBINARY})
+  </insert>
+  <insert id="insertSelective" parameterType="com.aurora.domain.MomentWithBLOBs">
+    insert into moments
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="sharingId != null">
+        sharing_id,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+      <if test="images != null">
+        images,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="sharingId != null">
+        #{sharingId,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=VARBINARY},
+      </if>
+      <if test="images != null">
+        #{images,jdbcType=LONGVARBINARY},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.aurora.domain.MomentWithBLOBs">
+    update moments
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="sharingId != null">
+        sharing_id = #{sharingId,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=VARBINARY},
+      </if>
+      <if test="images != null">
+        images = #{images,jdbcType=LONGVARBINARY},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.aurora.domain.MomentWithBLOBs">
+    update moments
+    set user_id = #{userId,jdbcType=VARCHAR},
+      sharing_id = #{sharingId,jdbcType=VARCHAR},
+      content = #{content,jdbcType=VARBINARY},
+      images = #{images,jdbcType=LONGVARBINARY}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.aurora.domain.Moment">
+    update moments
+    set user_id = #{userId,jdbcType=VARCHAR},
+      sharing_id = #{sharingId,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

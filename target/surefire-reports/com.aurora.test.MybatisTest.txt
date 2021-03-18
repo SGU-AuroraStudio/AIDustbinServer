@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.aurora.test.MybatisTest
+-------------------------------------------------------------------------------
+Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.515 s - in com.aurora.test.MybatisTest

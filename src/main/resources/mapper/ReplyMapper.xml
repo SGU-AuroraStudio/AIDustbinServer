@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aurora.dao.ReplyMapper">
+  <resultMap id="BaseResultMap" type="com.aurora.domain.Reply">
+    <constructor>
+      <idArg column="id" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="user_id" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="moment_id" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="to_user_id" javaType="java.lang.String" jdbcType="VARCHAR" />
+    </constructor>
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.aurora.domain.Reply">
+    <constructor>
+      <idArg column="id" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="user_id" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="moment_id" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="to_user_id" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="content" javaType="_byte[]" jdbcType="VARBINARY" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, user_id, moment_id, to_user_id
+  </sql>
+  <sql id="Blob_Column_List">
+    content
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from replies
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from replies
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.aurora.domain.Reply">
+    insert into replies (id, user_id, moment_id, 
+      to_user_id, content)
+    values (#{id,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, #{momentId,jdbcType=VARCHAR}, 
+      #{toUserId,jdbcType=VARCHAR}, #{content,jdbcType=VARBINARY})
+  </insert>
+  <insert id="insertSelective" parameterType="com.aurora.domain.Reply">
+    insert into replies
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="momentId != null">
+        moment_id,
+      </if>
+      <if test="toUserId != null">
+        to_user_id,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="momentId != null">
+        #{momentId,jdbcType=VARCHAR},
+      </if>
+      <if test="toUserId != null">
+        #{toUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=VARBINARY},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.aurora.domain.Reply">
+    update replies
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="momentId != null">
+        moment_id = #{momentId,jdbcType=VARCHAR},
+      </if>
+      <if test="toUserId != null">
+        to_user_id = #{toUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=VARBINARY},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.aurora.domain.Reply">
+    update replies
+    set user_id = #{userId,jdbcType=VARCHAR},
+      moment_id = #{momentId,jdbcType=VARCHAR},
+      to_user_id = #{toUserId,jdbcType=VARCHAR},
+      content = #{content,jdbcType=VARBINARY}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.aurora.domain.Reply">
+    update replies
+    set user_id = #{userId,jdbcType=VARCHAR},
+      moment_id = #{momentId,jdbcType=VARCHAR},
+      to_user_id = #{toUserId,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>
