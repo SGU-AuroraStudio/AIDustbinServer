@@ -13,7 +13,7 @@
             <!-- 是否去除自动生成的注释 true：是 ： false:否 -->
             <property name="suppressAllComments" value="true"/>
         </commentGenerator>
-        <!--jdbc的数据库连接 wg_insert 为数据库名字-->
+        <!--jdbc的数据库连接 dustbin 为数据库名字-->
         <jdbcConnection
                 driverClass="com.mysql.cj.jdbc.Driver"
                 connectionURL="jdbc:mysql://localhost:3306/dustbin?useUnicode=true&amp;characterEncoding=utf-8&amp;serverTimezone=UTC"
@@ -31,52 +31,48 @@
         </javaTypeResolver>
         <!-- targetPackage：生成的实体类所在的包 -->
         <!-- targetProject：生成的实体类所在的硬盘位置 -->
-        <javaModelGenerator targetPackage="com.aurora.domain"
-                            targetProject="src/main/java">
+        <javaModelGenerator targetPackage="com.aurora.domain" targetProject="src/main/java">
             <!-- 是否允许子包 -->
-            <property name="enableSubPackages" value="false"/>
-            <!-- 是否对modal添加构造函数 -->
-            <property name="constructorBased" value="true"/>
             <!-- 是否清理从数据库中查询出的字符串左右两边的空白字符 -->
             <property name="trimStrings" value="true"/>
             <!-- 建立modal对象是否不可改变 即生成的modal对象不会有setter方法，只有构造方法 -->
             <property name="immutable" value="false"/>
         </javaModelGenerator>
         <!-- targetPackage 和 targetProject：生成的 mapper 文件的包和位置 -->
-        <sqlMapGenerator targetPackage="mapper"
-                         targetProject="src/main/resources">
+        <sqlMapGenerator targetPackage="mapper" targetProject="src/main/resources">
             <!-- 针对数据库的一个配置，是否把 schema 作为字包名 -->
             <property name="enableSubPackages" value="false"/>
         </sqlMapGenerator>
         <!-- targetPackage 和 targetProject：生成的 interface 文件的包和位置 -->
-        <javaClientGenerator type="XMLMAPPER"
-                             targetPackage="com.aurora.dao" targetProject="src/main/java">
+        <javaClientGenerator
+                type="XMLMAPPER"
+                targetPackage="com.aurora.dao"
+                targetProject="src/main/java">
         </javaClientGenerator>
         <!-- tableName是数据库中的表名，domainObjectName是生成的JAVA模型名，后面的参数不用改，要生成更多的表就在下面继续加table标签 -->
         <table tableName="dustbininfo" domainObjectName="DustbinInfo"
                enableCountByExample="false" enableUpdateByExample="false"
-               enableDeleteByExample="false" enableSelectByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="true"
                selectByExampleQueryId="false">
         </table>
-        <!-- tableName是数据库中的表名，domainObjectName是生成的JAVA模型名，后面的参数不用改，要生成更多的表就在下面继续加table标签 -->
         <table tableName="moments" domainObjectName="Moment"
                enableCountByExample="false" enableUpdateByExample="false"
-               enableDeleteByExample="false" enableSelectByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="true"
                selectByExampleQueryId="false">
         </table>
-        <table tableName="q&amp;a" domainObjectName="QNA"
+        <table tableName="qna" domainObjectName="QNA"
                enableCountByExample="false" enableUpdateByExample="false"
-               enableDeleteByExample="false" enableSelectByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="true"
                selectByExampleQueryId="false">
         </table>
         <table tableName="replies" domainObjectName="Reply"
                enableCountByExample="false" enableUpdateByExample="false"
-               enableDeleteByExample="false" enableSelectByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="true"
                selectByExampleQueryId="false">
         </table>
         <table tableName="user" domainObjectName="User"
                enableCountByExample="false" enableUpdateByExample="false"
-               enableDeleteByExample="false" enableSelectByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="true"
                selectByExampleQueryId="false">
         </table>
     </context>

@@ -7,16 +7,6 @@ public class Moment {
 
     private String sharingId;
 
-    public Moment(String id, String userId, String sharingId) {
-        this.id = id;
-        this.userId = userId;
-        this.sharingId = sharingId;
-    }
-
-    public Moment() {
-        super();
-    }
-
     public String getId() {
         return id;
     }

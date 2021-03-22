@@ -1,38 +1,36 @@
 package com.aurora.service.impl;
 
-import com.aurora.dao.IUserDao;
+import com.aurora.dao.UserMapper;
 import com.aurora.domain.User;
+import com.aurora.domain.UserExample;
 import com.aurora.service.IUserService;
-import org.apache.ibatis.io.Resources;
-import org.apache.ibatis.session.SqlSession;
-import org.apache.ibatis.session.SqlSessionFactory;
-import org.apache.ibatis.session.SqlSessionFactoryBuilder;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import java.io.IOException;
-import java.io.InputStream;
-
+@Service
 public class UserServiceImpl implements IUserService {
 
-    SqlSession sqlSession;
-    IUserDao dao;
-
-    public UserServiceImpl(SqlSession sqlSession) throws IOException {
-        this.sqlSession = sqlSession;
-        dao = sqlSession.getMapper(IUserDao.class);
-    }
+    @Autowired
+    UserMapper userMapper;
 
     @Override
     public User findById(String id) {
-        return dao.findById(id);
+        return userMapper.selectByPrimaryKey(id);
     }
 
     @Override
     public User login(String id, String password) {
-        return dao.findByIdPassword(id, password);
+        return userMapper.selectByIdAndPassword(new User(id,password));
     }
 
     @Override
     public boolean register(String id, String password, String name) {
-        return dao.saveUser(id, password, name);
+        User user = userMapper.selectByPrimaryKey(id);
+        if (user != null)
+            return false;
+        else {
+            int res = userMapper.insert(new User(id,password,name));
+            return res>0;
+        }
     }
 }

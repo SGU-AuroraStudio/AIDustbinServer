@@ -1,6 +1,8 @@
 package com.aurora.dao;
 
 import com.aurora.domain.DustbinInfo;
+import com.aurora.domain.DustbinInfoExample;
+import java.util.List;
 
 public interface DustbinInfoMapper {
     int deleteByPrimaryKey(Integer id);
@@ -8,6 +10,8 @@ public interface DustbinInfoMapper {
     int insert(DustbinInfo record);
 
     int insertSelective(DustbinInfo record);
+
+    List<DustbinInfo> selectByExample(DustbinInfoExample example);
 
     DustbinInfo selectByPrimaryKey(Integer id);
 

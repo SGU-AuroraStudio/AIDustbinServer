@@ -9,17 +9,6 @@ public class DustbinInfo {
 
     private String detail;
 
-    public DustbinInfo(Integer id, String longitude, String latitude, String detail) {
-        this.id = id;
-        this.longitude = longitude;
-        this.latitude = latitude;
-        this.detail = detail;
-    }
-
-    public DustbinInfo() {
-        super();
-    }
-
     public Integer getId() {
         return id;
     }

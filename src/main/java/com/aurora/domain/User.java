@@ -15,17 +15,17 @@ public class User {
 
     private byte[] profile;
 
-    public User(String id, String password, String name, Date lastLogin, Date dateJoined, byte[] profile) {
+    public User(){ }
+
+    public User(String id, String password, String name) {
         this.id = id;
         this.password = password;
         this.name = name;
-        this.lastLogin = lastLogin;
-        this.dateJoined = dateJoined;
-        this.profile = profile;
     }
 
-    public User() {
-        super();
+    public User(String id, String password) {
+        this.id = id;
+        this.password = password;
     }
 
     public String getId() {

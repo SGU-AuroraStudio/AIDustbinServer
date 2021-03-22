@@ -19,22 +19,6 @@ public class QNA {
 
     private Integer wrong;
 
-    public QNA(Integer id, String q, String a, String b, String c, String d, String answer, Integer right, Integer wrong) {
-        this.id = id;
-        this.q = q;
-        this.a = a;
-        this.b = b;
-        this.c = c;
-        this.d = d;
-        this.answer = answer;
-        this.right = right;
-        this.wrong = wrong;
-    }
-
-    public QNA() {
-        super();
-    }
-
     public Integer getId() {
         return id;
     }

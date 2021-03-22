@@ -11,18 +11,6 @@ public class Reply {
 
     private byte[] content;
 
-    public Reply(String id, String userId, String momentId, String toUserId, byte[] content) {
-        this.id = id;
-        this.userId = userId;
-        this.momentId = momentId;
-        this.toUserId = toUserId;
-        this.content = content;
-    }
-
-    public Reply() {
-        super();
-    }
-
     public String getId() {
         return id;
     }
