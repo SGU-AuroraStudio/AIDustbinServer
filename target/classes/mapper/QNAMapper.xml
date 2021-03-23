@@ -44,6 +44,9 @@
   <sql id="Base_Column_List">
     id, Q, A, B, C, D, answer, right, wrong
   </sql>
+  <select id="selectOneByRandom" resultMap="BaseResultMap">
+    select * from qna order by rand() limit 1
+  </select>
   <select id="selectByExample" parameterType="com.aurora.domain.QNAExample" resultMap="BaseResultMap">
     select
     <if test="distinct">

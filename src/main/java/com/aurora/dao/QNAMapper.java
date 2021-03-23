@@ -11,6 +11,8 @@ public interface QNAMapper {
 
     int insertSelective(QNA record);
 
+    QNA selectOneByRandom();
+
     List<QNA> selectByExample(QNAExample example);
 
     QNA selectByPrimaryKey(Integer id);
