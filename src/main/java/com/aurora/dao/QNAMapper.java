@@ -20,4 +20,6 @@ public interface QNAMapper {
     int updateByPrimaryKeySelective(QNA record);
 
     int updateByPrimaryKey(QNA record);
+
+
 }

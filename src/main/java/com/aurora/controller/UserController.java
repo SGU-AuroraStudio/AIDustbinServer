@@ -1,17 +1,22 @@
 package com.aurora.controller;
 
 import com.aurora.domain.User;
-import com.aurora.service.IUserService;
+import com.aurora.domain.base.RespJSON;
+import com.aurora.domain.base.StatusCode;
 import com.aurora.service.impl.UserServiceImpl;
-import com.aurora.utils.Constants;
+import com.aurora.util.Constants;
+import com.aurora.util.RandomNickName;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.util.Date;
 
 @Controller
 @RequestMapping("/user")
@@ -20,36 +25,52 @@ public class UserController {
     @Autowired
     UserServiceImpl userService;
 
-    @RequestMapping("/login")
+    @RequestMapping(value = "/login")
     @ResponseBody
-    Boolean login(
-            HttpServletRequest request,
-            @RequestParam(value = "account", required = false) String id,
-            @RequestParam(value = "password", required = false) String password) {
-        System.out.println("login...");
-        System.out.println("用户名：" + id);
-        System.out.println("密码：" + password);
-        User user = userService.login(id, password);
-        if (user != null || request.getSession().getAttribute(Constants.SESSION_KEY) != null) {
-            String sessionId = request.getSession().getId();
-            request.getSession().setAttribute(Constants.SESSION_KEY, sessionId);
-            System.out.println(sessionId);
-            return true;
-        } else
-            return false;
+    RespJSON login(HttpServletRequest request, HttpServletResponse response) {
+        System.out.println("loginPage...");
+        if(request.getSession().getAttribute(Constants.SESSION_KEY)!=null)
+            return new RespJSON(StatusCode.SUCCESS.getCode(), StatusCode.SUCCESS.getMsg(), request.getSession().getAttribute(Constants.SESSION_USER));
+        else
+            return new RespJSON(StatusCode.NOT_LOGIN.getCode(), StatusCode.NOT_LOGIN.getMsg(), null);
     }
 
-
-    @RequestMapping("/register")
+    @RequestMapping(value = "/doLogin", method = {RequestMethod.POST})
     @ResponseBody
-    String register(@RequestParam("account") String id, String password, String name) {
+    RespJSON doLogin(
+            HttpServletRequest request,
+            @RequestParam(value = "id", required = false) String id,
+            @RequestParam(value = "account", required = false) String account,
+            @RequestParam(value = "password", required = false) String password) {
+        System.out.println("doLogin...");
+        User user = userService.login(id, account, password);
+        //user==null，登录失败
+        if(user == null)
+            return new RespJSON(StatusCode.USER_INFO_ERROR.getCode(),StatusCode.USER_INFO_ERROR.getMsg(),null);
+        //登录成功
+        else {
+            HttpSession session = request.getSession();
+            session.setAttribute(Constants.SESSION_KEY,session.getId());
+            session.setAttribute(Constants.SESSION_USER,user);
+            return new RespJSON(StatusCode.SUCCESS.getCode(), StatusCode.SUCCESS.getMsg(), user);
+        }
+    }
+
+    @RequestMapping(value = "/register", method = {RequestMethod.POST})
+    @ResponseBody
+    RespJSON register(String id, String account, String password) {
         System.out.println("register...");
-        if (userService.findById(id) != null)
-            return "用户名已存在";
-        if (userService.register(id, password, name))
-            return "true";
+        User user=null;
+        //用户存在，直接返回
+        if (userService.findById(id) != null) {
+            return new RespJSON(StatusCode.USER_EXITS.getCode(),StatusCode.USER_EXITS.getMsg(),null);
+        }
+        user = new User(id, account, password, RandomNickName.generateName(), null, null, new Date(), null);
+        //注册
+        if (userService.register(user))
+            return new RespJSON(StatusCode.SUCCESS.getCode(), StatusCode.SUCCESS.getMsg(), user);
         else
-            return "false";
+            return new RespJSON(StatusCode.FAIL.getCode(), StatusCode.FAIL.getMsg(), user);
     }
 
 }

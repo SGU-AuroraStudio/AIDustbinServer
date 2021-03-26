@@ -1,13 +1,14 @@
 package com.aurora.service;
 
 import com.aurora.domain.User;
-import java.util.List;
 
 public interface IUserService {
 
     User findById(String id);
 
-    User login(String id,String password);
+    User findByAccount(String account);
 
-    boolean register(String id,String password,String name);
+    User login(String id, String account, String password);
+
+    boolean register(User user);
 }

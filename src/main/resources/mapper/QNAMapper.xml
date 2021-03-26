@@ -3,14 +3,10 @@
 <mapper namespace="com.aurora.dao.QNAMapper">
   <resultMap id="BaseResultMap" type="com.aurora.domain.QNA">
     <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="Q" jdbcType="VARCHAR" property="q" />
-    <result column="A" jdbcType="VARCHAR" property="a" />
-    <result column="B" jdbcType="VARCHAR" property="b" />
-    <result column="C" jdbcType="VARCHAR" property="c" />
-    <result column="D" jdbcType="VARCHAR" property="d" />
-    <result column="answer" jdbcType="VARCHAR" property="answer" />
-    <result column="right" jdbcType="INTEGER" property="right" />
-    <result column="wrong" jdbcType="INTEGER" property="wrong" />
+    <result column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="qna_id" jdbcType="INTEGER" property="qnaId" />
+    <result column="choose" jdbcType="INTEGER" property="choose" />
+    <result column="created_time" jdbcType="TIMESTAMP" property="createdTime" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -42,7 +38,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, Q, A, B, C, D, answer, right, wrong
+    id, user_id, qna_id, choose, created_time
   </sql>
   <select id="selectOneByRandom" resultMap="BaseResultMap">
     select * from qna order by rand() limit 1
@@ -54,7 +50,7 @@
     </if>
     'false' as QUERYID,
     <include refid="Base_Column_List" />
-    from qna
+    from qna_record
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -65,122 +61,80 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from qna
+    from qna_record
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from qna
+    delete from qna_record
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.aurora.domain.QNA">
-    insert into qna (id, Q, A, B, 
-      C, D, answer, right, 
-      wrong)
-    values (#{id,jdbcType=INTEGER}, #{q,jdbcType=VARCHAR}, #{a,jdbcType=VARCHAR}, #{b,jdbcType=VARCHAR}, 
-      #{c,jdbcType=VARCHAR}, #{d,jdbcType=VARCHAR}, #{answer,jdbcType=VARCHAR}, #{right,jdbcType=INTEGER}, 
-      #{wrong,jdbcType=INTEGER})
+    insert into qna_record (id, user_id, qna_id, 
+      choose, created_time)
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=VARCHAR}, #{qnaId,jdbcType=INTEGER}, 
+      #{choose,jdbcType=INTEGER}, #{createdTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.aurora.domain.QNA">
-    insert into qna
+    insert into qna_record
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
       </if>
-      <if test="q != null">
-        Q,
+      <if test="userId != null">
+        user_id,
       </if>
-      <if test="a != null">
-        A,
+      <if test="qnaId != null">
+        qna_id,
       </if>
-      <if test="b != null">
-        B,
+      <if test="choose != null">
+        choose,
       </if>
-      <if test="c != null">
-        C,
-      </if>
-      <if test="d != null">
-        D,
-      </if>
-      <if test="answer != null">
-        answer,
-      </if>
-      <if test="right != null">
-        right,
-      </if>
-      <if test="wrong != null">
-        wrong,
+      <if test="createdTime != null">
+        created_time,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="q != null">
-        #{q,jdbcType=VARCHAR},
+      <if test="userId != null">
+        #{userId,jdbcType=VARCHAR},
       </if>
-      <if test="a != null">
-        #{a,jdbcType=VARCHAR},
+      <if test="qnaId != null">
+        #{qnaId,jdbcType=INTEGER},
       </if>
-      <if test="b != null">
-        #{b,jdbcType=VARCHAR},
+      <if test="choose != null">
+        #{choose,jdbcType=INTEGER},
       </if>
-      <if test="c != null">
-        #{c,jdbcType=VARCHAR},
-      </if>
-      <if test="d != null">
-        #{d,jdbcType=VARCHAR},
-      </if>
-      <if test="answer != null">
-        #{answer,jdbcType=VARCHAR},
-      </if>
-      <if test="right != null">
-        #{right,jdbcType=INTEGER},
-      </if>
-      <if test="wrong != null">
-        #{wrong,jdbcType=INTEGER},
+      <if test="createdTime != null">
+        #{createdTime,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.aurora.domain.QNA">
-    update qna
+    update qna_record
     <set>
-      <if test="q != null">
-        Q = #{q,jdbcType=VARCHAR},
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=VARCHAR},
       </if>
-      <if test="a != null">
-        A = #{a,jdbcType=VARCHAR},
+      <if test="qnaId != null">
+        qna_id = #{qnaId,jdbcType=INTEGER},
       </if>
-      <if test="b != null">
-        B = #{b,jdbcType=VARCHAR},
+      <if test="choose != null">
+        choose = #{choose,jdbcType=INTEGER},
       </if>
-      <if test="c != null">
-        C = #{c,jdbcType=VARCHAR},
-      </if>
-      <if test="d != null">
-        D = #{d,jdbcType=VARCHAR},
-      </if>
-      <if test="answer != null">
-        answer = #{answer,jdbcType=VARCHAR},
-      </if>
-      <if test="right != null">
-        right = #{right,jdbcType=INTEGER},
-      </if>
-      <if test="wrong != null">
-        wrong = #{wrong,jdbcType=INTEGER},
+      <if test="createdTime != null">
+        created_time = #{createdTime,jdbcType=TIMESTAMP},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.aurora.domain.QNA">
-    update qna
-    set Q = #{q,jdbcType=VARCHAR},
-      A = #{a,jdbcType=VARCHAR},
-      B = #{b,jdbcType=VARCHAR},
-      C = #{c,jdbcType=VARCHAR},
-      D = #{d,jdbcType=VARCHAR},
-      answer = #{answer,jdbcType=VARCHAR},
-      right = #{right,jdbcType=INTEGER},
-      wrong = #{wrong,jdbcType=INTEGER}
+    update qna_record
+    set user_id = #{userId,jdbcType=VARCHAR},
+      qna_id = #{qnaId,jdbcType=INTEGER},
+      choose = #{choose,jdbcType=INTEGER},
+      created_time = #{createdTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

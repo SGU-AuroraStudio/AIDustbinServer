@@ -2,6 +2,8 @@ package com.aurora.dao;
 
 import com.aurora.domain.User;
 import com.aurora.domain.UserExample;
+import org.apache.ibatis.annotations.Param;
+
 import java.util.List;
 
 public interface UserMapper {
@@ -11,7 +13,9 @@ public interface UserMapper {
 
     int insertSelective(User record);
 
-    User selectByIdAndPassword(User user);
+//    User selectByIdAndPassword(@Param("id") String id, @Param("password")String password);
+//
+//    User selectByAccountAndPassword(@Param("account") String account, @Param("password")String password);
 
     List<User> selectByExampleWithBLOBs(UserExample example);
 

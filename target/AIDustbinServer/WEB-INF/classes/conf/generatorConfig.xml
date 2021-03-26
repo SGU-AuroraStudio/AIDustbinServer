@@ -50,30 +50,20 @@
                 targetProject="src/main/java">
         </javaClientGenerator>
         <!-- tableName是数据库中的表名，domainObjectName是生成的JAVA模型名，后面的参数不用改，要生成更多的表就在下面继续加table标签 -->
-        <table tableName="dustbininfo" domainObjectName="DustbinInfo"
-               enableCountByExample="false" enableUpdateByExample="false"
-               enableDeleteByExample="false" enableSelectByExample="true"
-               selectByExampleQueryId="false">
-        </table>
-        <table tableName="moments" domainObjectName="Moment"
-               enableCountByExample="false" enableUpdateByExample="false"
-               enableDeleteByExample="false" enableSelectByExample="true"
-               selectByExampleQueryId="false">
-        </table>
-        <table tableName="qna" domainObjectName="QNA"
-               enableCountByExample="false" enableUpdateByExample="false"
-               enableDeleteByExample="false" enableSelectByExample="true"
-               selectByExampleQueryId="false">
-        </table>
-        <table tableName="replies" domainObjectName="Reply"
-               enableCountByExample="false" enableUpdateByExample="false"
-               enableDeleteByExample="false" enableSelectByExample="true"
-               selectByExampleQueryId="false">
-        </table>
-        <table tableName="user" domainObjectName="User"
-               enableCountByExample="false" enableUpdateByExample="false"
-               enableDeleteByExample="false" enableSelectByExample="true"
-               selectByExampleQueryId="false">
-        </table>
+        <!--<table tableName="qna" domainObjectName="QNA"-->
+        <!--       enableCountByExample="false" enableUpdateByExample="false"-->
+        <!--       enableDeleteByExample="false" enableSelectByExample="true"-->
+        <!--       selectByExampleQueryId="false">-->
+        <!--</table>-->
+        <!--<table tableName="qna_record" domainObjectName="QNARecord"-->
+        <!--       enableCountByExample="false" enableUpdateByExample="false"-->
+        <!--       enableDeleteByExample="false" enableSelectByExample="true"-->
+        <!--       selectByExampleQueryId="false">-->
+        <!--</table>-->
+        <!--<table tableName="user" domainObjectName="User"-->
+        <!--       enableCountByExample="false" enableUpdateByExample="false"-->
+        <!--       enableDeleteByExample="false" enableSelectByExample="true"-->
+        <!--       selectByExampleQueryId="false">-->
+        <!--</table>-->
     </context>
 </generatorConfiguration>

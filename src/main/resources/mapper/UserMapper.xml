@@ -3,8 +3,10 @@
 <mapper namespace="com.aurora.dao.UserMapper">
   <resultMap id="BaseResultMap" type="com.aurora.domain.User">
     <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="account" jdbcType="VARCHAR" property="account" />
     <result column="password" jdbcType="VARCHAR" property="password" />
-    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="nickname" jdbcType="VARCHAR" property="nickname" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
     <result column="last_login" jdbcType="TIMESTAMP" property="lastLogin" />
     <result column="date_joined" jdbcType="TIMESTAMP" property="dateJoined" />
   </resultMap>
@@ -41,20 +43,13 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, password, name, last_login, date_joined
+    id, account, password, nickname, status, last_login, date_joined
   </sql>
   <sql id="Blob_Column_List">
     profile
   </sql>
-  <select id="selectByIdAndPassword" parameterType="com.aurora.domain.User" resultMap="ResultMapWithBLOBs">
-    select * from user where id = #{id} and password = #{password}
-  </select>
   <select id="selectByExampleWithBLOBs" parameterType="com.aurora.domain.UserExample" resultMap="ResultMapWithBLOBs">
     select
-    <if test="distinct">
-      distinct
-    </if>
-    'false' as QUERYID,
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
@@ -68,10 +63,6 @@
   </select>
   <select id="selectByExample" parameterType="com.aurora.domain.UserExample" resultMap="BaseResultMap">
     select
-    <if test="distinct">
-      distinct
-    </if>
-    'false' as QUERYID,
     <include refid="Base_Column_List" />
     from user
     <if test="_parameter != null">
@@ -94,12 +85,12 @@
     where id = #{id,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.aurora.domain.User">
-    insert into user (id, password, name, 
-      last_login, date_joined, profile
-      )
-    values (#{id,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
-      #{lastLogin,jdbcType=TIMESTAMP}, #{dateJoined,jdbcType=TIMESTAMP}, #{profile,jdbcType=LONGVARBINARY}
-      )
+    insert into user (id, account, password, 
+      nickname, status, last_login, 
+      date_joined, profile)
+    values (#{id,jdbcType=VARCHAR}, #{account,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      #{nickname,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{lastLogin,jdbcType=TIMESTAMP}, 
+      #{dateJoined,jdbcType=TIMESTAMP}, #{profile,jdbcType=LONGVARBINARY})
   </insert>
   <insert id="insertSelective" parameterType="com.aurora.domain.User">
     insert into user
@@ -107,11 +98,17 @@
       <if test="id != null">
         id,
       </if>
+      <if test="account != null">
+        account,
+      </if>
       <if test="password != null">
         password,
       </if>
-      <if test="name != null">
-        name,
+      <if test="nickname != null">
+        nickname,
+      </if>
+      <if test="status != null">
+        status,
       </if>
       <if test="lastLogin != null">
         last_login,
@@ -127,11 +124,17 @@
       <if test="id != null">
         #{id,jdbcType=VARCHAR},
       </if>
+      <if test="account != null">
+        #{account,jdbcType=VARCHAR},
+      </if>
       <if test="password != null">
         #{password,jdbcType=VARCHAR},
       </if>
-      <if test="name != null">
-        #{name,jdbcType=VARCHAR},
+      <if test="nickname != null">
+        #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
       </if>
       <if test="lastLogin != null">
         #{lastLogin,jdbcType=TIMESTAMP},
@@ -147,11 +150,17 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.aurora.domain.User">
     update user
     <set>
+      <if test="account != null">
+        account = #{account,jdbcType=VARCHAR},
+      </if>
       <if test="password != null">
         password = #{password,jdbcType=VARCHAR},
       </if>
-      <if test="name != null">
-        name = #{name,jdbcType=VARCHAR},
+      <if test="nickname != null">
+        nickname = #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=VARCHAR},
       </if>
       <if test="lastLogin != null">
         last_login = #{lastLogin,jdbcType=TIMESTAMP},
@@ -167,8 +176,10 @@
   </update>
   <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.aurora.domain.User">
     update user
-    set password = #{password,jdbcType=VARCHAR},
-      name = #{name,jdbcType=VARCHAR},
+    set account = #{account,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      nickname = #{nickname,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
       last_login = #{lastLogin,jdbcType=TIMESTAMP},
       date_joined = #{dateJoined,jdbcType=TIMESTAMP},
       profile = #{profile,jdbcType=LONGVARBINARY}
@@ -176,8 +187,10 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.aurora.domain.User">
     update user
-    set password = #{password,jdbcType=VARCHAR},
-      name = #{name,jdbcType=VARCHAR},
+    set account = #{account,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      nickname = #{nickname,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
       last_login = #{lastLogin,jdbcType=TIMESTAMP},
       date_joined = #{dateJoined,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=VARCHAR}
