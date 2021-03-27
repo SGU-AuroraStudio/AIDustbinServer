@@ -8,7 +8,7 @@ public interface IUserService {
 
     User findByAccount(String account);
 
-    User login(String id, String account, String password);
+    User login(String id, String password);
 
     boolean register(User user);
 }

@@ -56,16 +56,14 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public User login(String id, String account, String password) {
-        if(password==null)
+    public User login(String id, String password) {
+        if(id==null||password==null)
             return null;
-        User user = null;
         //根据id登录
-        if(id!=null)
-            user = this.selectByIdAndPassword(id,password);
+        User user = this.selectByIdAndPassword(id,password);
         //不行就根据account登录
-        if(user==null && account!=null)
-            user = this.selectByAccountAndPassword(account,password);
+        if(user==null)
+            user = this.selectByAccountAndPassword(id,password);
         //user!=null说明登录成功
         if(user!=null) {
             //更新最后登录时间

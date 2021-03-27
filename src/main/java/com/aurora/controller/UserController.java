@@ -44,13 +44,10 @@ public class UserController {
     @RequestMapping(value = "/doLogin", method = {RequestMethod.POST})
     @ResponseBody
     RespJSON doLogin(
-            HttpServletRequest request,
-            @RequestParam(value = "id", required = false) String id,
-            @RequestParam(value = "account", required = false) String account,
-            @RequestParam(value = "password", required = false) String password) {
+            HttpServletRequest request, String id, String password) {
         System.out.println("doLogin...");
-        User user = userService.login(id, account, password);
-        //user==null，登录失败
+        User user = userService.login(id, password);
+        //user==null，返回登录失败
         if(user == null)
             return new RespJSON(StatusCode.USER_INFO_ERROR.getCode(),StatusCode.USER_INFO_ERROR.getMsg(),null);
         //登录成功
