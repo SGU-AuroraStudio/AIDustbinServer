@@ -58,7 +58,7 @@ public class QNAController {
      */
     @RequestMapping(value = "", method = RequestMethod.POST)
     @ResponseBody
-    RespJSON judge(HttpServletRequest request,String uId, Integer qId, String choose) {
+    RespJSON judge(HttpServletRequest request, Integer qId, String choose) {
         //检查选项是否存在
         WasteType chooseType = wasteTypeService.selectByName(choose);
         if (chooseType == null)
@@ -71,14 +71,14 @@ public class QNAController {
             //选择正确就使数据库right记录+1
             qnaService.updateQNARightAddOneById(qId);
             //插入选择记录
-            QNARecord qnaRecord = new QNARecord(uId, qId, chooseType.getId(), true, new Date());
+            QNARecord qnaRecord = new QNARecord(user.getId(), qId, chooseType.getId(), true, new Date());
             qnaRecordService.insertOne(qnaRecord);
             return new RespJSON(StatusCode.CHOOSE_RIGHT.getCode(), StatusCode.CHOOSE_RIGHT.getMsg(), null);
         } else {
             //选择错误就使数据库wrong记录+1
             qnaService.updateQNAWrongAddOneById(qId);
             //插入选择记录
-            QNARecord qnaRecord = new QNARecord(uId, qId, chooseType.getId(), false, new Date());
+            QNARecord qnaRecord = new QNARecord(user.getId(), qId, chooseType.getId(), false, new Date());
             qnaRecordService.insertOne(qnaRecord);
             return new RespJSON(StatusCode.CHOOSE_WRONG.getCode(), StatusCode.CHOOSE_WRONG.getMsg(), null);
         }
