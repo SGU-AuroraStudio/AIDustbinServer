@@ -47,6 +47,7 @@
     LEFT JOIN `user` u
     ON qr.user_id=u.`id`
     GROUP BY qr.`user_id`
+    ORDER BY `right` DESC
   </select>
   <select id="selectByExample" parameterType="com.aurora.domain.QNARecordExample" resultMap="BaseResultMap">
     select
