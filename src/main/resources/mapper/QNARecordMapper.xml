@@ -44,7 +44,7 @@
   <select id="selectQNARank" resultType="com.aurora.domain.QNARank">
     SELECT u.`id` as userId,`nickname`,COUNT(judge=1 OR NULL) AS `right`,COUNT(judge=0 OR NULL) AS `wrong`
     FROM qna_record qr
-    LEFT JOIN USER u
+    LEFT JOIN `user` u
     ON qr.user_id=u.`id`
     GROUP BY qr.`user_id`
   </select>
