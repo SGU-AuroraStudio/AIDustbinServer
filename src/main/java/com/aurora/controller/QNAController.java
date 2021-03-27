@@ -1,5 +1,6 @@
 package com.aurora.controller;
 
+import com.aurora.domain.QNARank;
 import com.aurora.domain.QNARecord;
 import com.aurora.domain.User;
 import com.aurora.domain.WasteType;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @Author Yao
@@ -56,18 +58,28 @@ public class QNAController {
         //从session取得用户信息
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute(Constants.SESSION_USER);
-        QNARecord qnaRecord = new QNARecord(user.getId(),qId,chooseType.getId(),new Date());
-        //插入选择记录
-        qnaRecordService.insertOne(qnaRecord);
         //判断是否选择正确
         if(qnaService.judge(qId, chooseType.getId())){
             //选择正确就使数据库right记录+1
             qnaService.updateQNARightAddOneById(qId);
+            //插入选择记录
+            QNARecord qnaRecord = new QNARecord(user.getId(),qId,chooseType.getId(),true, new Date());
+            qnaRecordService.insertOne(qnaRecord);
             return new RespJSON(StatusCode.CHOOSE_RIGHT.getCode(), StatusCode.CHOOSE_RIGHT.getMsg(), null);
         }else {
             //选择错误就使数据库wrong记录+1
             qnaService.updateQNAWrongAddOneById(qId);
+            //插入选择记录
+            QNARecord qnaRecord = new QNARecord(user.getId(),qId,chooseType.getId(),false, new Date());
+            qnaRecordService.insertOne(qnaRecord);
             return new RespJSON(StatusCode.CHOOSE_WRONG.getCode(), StatusCode.CHOOSE_WRONG.getMsg(), null);
         }
+    }
+
+    @RequestMapping(value = "/rank",method = RequestMethod.GET)
+    @ResponseBody
+    RespJSON getRankList(){
+        List<QNARank> list = qnaRecordService.selectQNARank();
+        return new RespJSON(StatusCode.SUCCESS.getCode(), StatusCode.SUCCESS.getMsg(), list);
     }
 }

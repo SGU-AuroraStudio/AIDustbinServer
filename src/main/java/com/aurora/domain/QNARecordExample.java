@@ -355,6 +355,66 @@ public class QNARecordExample {
             return (Criteria) this;
         }
 
+        public Criteria andJudgeIsNull() {
+            addCriterion("judge is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andJudgeIsNotNull() {
+            addCriterion("judge is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andJudgeEqualTo(Boolean value) {
+            addCriterion("judge =", value, "judge");
+            return (Criteria) this;
+        }
+
+        public Criteria andJudgeNotEqualTo(Boolean value) {
+            addCriterion("judge <>", value, "judge");
+            return (Criteria) this;
+        }
+
+        public Criteria andJudgeGreaterThan(Boolean value) {
+            addCriterion("judge >", value, "judge");
+            return (Criteria) this;
+        }
+
+        public Criteria andJudgeGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("judge >=", value, "judge");
+            return (Criteria) this;
+        }
+
+        public Criteria andJudgeLessThan(Boolean value) {
+            addCriterion("judge <", value, "judge");
+            return (Criteria) this;
+        }
+
+        public Criteria andJudgeLessThanOrEqualTo(Boolean value) {
+            addCriterion("judge <=", value, "judge");
+            return (Criteria) this;
+        }
+
+        public Criteria andJudgeIn(List<Boolean> values) {
+            addCriterion("judge in", values, "judge");
+            return (Criteria) this;
+        }
+
+        public Criteria andJudgeNotIn(List<Boolean> values) {
+            addCriterion("judge not in", values, "judge");
+            return (Criteria) this;
+        }
+
+        public Criteria andJudgeBetween(Boolean value1, Boolean value2) {
+            addCriterion("judge between", value1, value2, "judge");
+            return (Criteria) this;
+        }
+
+        public Criteria andJudgeNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("judge not between", value1, value2, "judge");
+            return (Criteria) this;
+        }
+
         public Criteria andCreatedTimeIsNull() {
             addCriterion("created_time is null");
             return (Criteria) this;

@@ -6,6 +6,7 @@
     <result column="user_id" jdbcType="VARCHAR" property="userId" />
     <result column="qna_id" jdbcType="INTEGER" property="qnaId" />
     <result column="choose" jdbcType="INTEGER" property="choose" />
+    <result column="judge" jdbcType="BIT" property="judge" />
     <result column="created_time" jdbcType="TIMESTAMP" property="createdTime" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -38,8 +39,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, user_id, qna_id, choose, created_time
+    id, user_id, qna_id, choose, judge, created_time
   </sql>
+  <select id="selectQNARank" resultType="com.aurora.domain.QNARank">
+    SELECT u.`id` as userId,`nickname`,COUNT(judge=1 OR NULL) AS `right`,COUNT(judge=0 OR NULL) AS `wrong`
+    FROM qna_record qr
+    LEFT JOIN USER u
+    ON qr.user_id=u.`id`
+    GROUP BY qr.`user_id`
+  </select>
   <select id="selectByExample" parameterType="com.aurora.domain.QNARecordExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
@@ -67,9 +75,11 @@
   </delete>
   <insert id="insert" parameterType="com.aurora.domain.QNARecord">
     insert into qna_record (id, user_id, qna_id, 
-      choose, created_time)
+      choose, judge, created_time
+      )
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=VARCHAR}, #{qnaId,jdbcType=INTEGER}, 
-      #{choose,jdbcType=INTEGER}, #{createdTime,jdbcType=TIMESTAMP})
+      #{choose,jdbcType=INTEGER}, #{judge,jdbcType=BIT}, #{createdTime,jdbcType=TIMESTAMP}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.aurora.domain.QNARecord">
     insert into qna_record
@@ -85,6 +95,9 @@
       </if>
       <if test="choose != null">
         choose,
+      </if>
+      <if test="judge != null">
+        judge,
       </if>
       <if test="createdTime != null">
         created_time,
@@ -103,6 +116,9 @@
       <if test="choose != null">
         #{choose,jdbcType=INTEGER},
       </if>
+      <if test="judge != null">
+        #{judge,jdbcType=BIT},
+      </if>
       <if test="createdTime != null">
         #{createdTime,jdbcType=TIMESTAMP},
       </if>
@@ -120,6 +136,9 @@
       <if test="choose != null">
         choose = #{choose,jdbcType=INTEGER},
       </if>
+      <if test="judge != null">
+        judge = #{judge,jdbcType=BIT},
+      </if>
       <if test="createdTime != null">
         created_time = #{createdTime,jdbcType=TIMESTAMP},
       </if>
@@ -131,6 +150,7 @@
     set user_id = #{userId,jdbcType=VARCHAR},
       qna_id = #{qnaId,jdbcType=INTEGER},
       choose = #{choose,jdbcType=INTEGER},
+      judge = #{judge,jdbcType=BIT},
       created_time = #{createdTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>

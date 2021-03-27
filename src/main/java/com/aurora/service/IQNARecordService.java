@@ -1,6 +1,9 @@
 package com.aurora.service;
 
+import com.aurora.domain.QNARank;
 import com.aurora.domain.QNARecord;
+
+import java.util.List;
 
 /**
  * @Author Yao
@@ -9,4 +12,6 @@ import com.aurora.domain.QNARecord;
  */
 public interface IQNARecordService {
     boolean insertOne(QNARecord qnaRecord);
+
+    List<QNARank> selectQNARank();
 }

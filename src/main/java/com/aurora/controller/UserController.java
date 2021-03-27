@@ -40,7 +40,7 @@ public class UserController {
             return new RespJSON(StatusCode.SUCCESS.getCode(), StatusCode.SUCCESS.getMsg(), request.getSession().getAttribute(Constants.SESSION_USER));
     }
 
-    //TODO:只传两个参数，id和password，实现根据用户名或手机号或邮箱登录
+    //TODO:id和account需要限制，详情见github提交记录
     @RequestMapping(value = "/doLogin", method = {RequestMethod.POST})
     @ResponseBody
     RespJSON doLogin(

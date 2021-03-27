@@ -25,7 +25,7 @@ public class QNAServiceImpl implements IQNAService {
         criteria.andIdEqualTo(id);
         criteria.andAnswerEqualTo(choose);
         List<QNA> list = qnaMapper.selectByExample(example);
-        return list != null;
+        return list.size()>0;
     }
 
     @Override

@@ -11,12 +11,15 @@ public class QNARecord {
 
     private Integer choose;
 
+    private Boolean judge;
+
     private Date createdTime;
 
-    public QNARecord(String userId, Integer qnaId, Integer choose, Date createdTime) {
+    public QNARecord(String userId, Integer qnaId, Integer choose, Boolean judge, Date createdTime) {
         this.userId = userId;
         this.qnaId = qnaId;
         this.choose = choose;
+        this.judge = judge;
         this.createdTime = createdTime;
     }
 
@@ -50,6 +53,14 @@ public class QNARecord {
 
     public void setChoose(Integer choose) {
         this.choose = choose;
+    }
+
+    public Boolean getJudge() {
+        return judge;
+    }
+
+    public void setJudge(Boolean judge) {
+        this.judge = judge;
     }
 
     public Date getCreatedTime() {
