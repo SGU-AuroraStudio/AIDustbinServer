@@ -16,6 +16,7 @@ public class WasteTypeServiceImpl implements IWasteTypeService {
 
     @Autowired
     WasteTypeMapper wasteTypeMapper;
+
     @Override
     public WasteType selectById(Integer id) {
         return wasteTypeMapper.selectByPrimaryKey(id);

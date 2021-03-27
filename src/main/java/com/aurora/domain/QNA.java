@@ -7,10 +7,13 @@ public class QNA {
 
     private String q;
 
+    @JsonIgnore
     private Integer answer;
 
+    @JsonIgnore
     private Integer right;
 
+    @JsonIgnore
     private Integer wrong;
 
     public Integer getId() {

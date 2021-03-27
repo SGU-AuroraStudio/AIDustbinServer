@@ -21,6 +21,7 @@ public class User {
     @JsonIgnore
     private Date dateJoined;
 
+    //TODO:头像改成String，保存url。图片经过后台生成名字，保存在服务器硬盘，在tomcat设置路径。这样的话UserMapper也需要删除重建。
     private byte[] profile;
 
     public User(String id, String account, String password, String nickname, String status, Date lastLogin, Date dateJoined, byte[] profile) {

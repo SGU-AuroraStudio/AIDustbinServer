@@ -36,49 +36,62 @@ public class QNAController {
     @Autowired
     QNARecordServiceImpl qnaRecordService;
 
-    @RequestMapping(value = "",method = RequestMethod.GET)
+    //TODO:需要修改成获取N道题，一道一道选可能会重复
+
+    /**
+     * 随机获取题目
+     *
+     * @return QNA
+     */
+    @RequestMapping(value = "", method = RequestMethod.GET)
     @ResponseBody
-    RespJSON getRandomQNA(){
+    RespJSON getRandomQNA() {
         return new RespJSON(StatusCode.SUCCESS.getCode(), StatusCode.SUCCESS.getMsg(), qnaService.getRandomQNA());
     }
 
     /**
      * 判断用户是否选对了
-     * @param qId 题目的id
+     *
+     * @param qId    题目的id
      * @param choose 用户选的选项的内容（垃圾类型）
      * @return JSON
      */
-    @RequestMapping(value = "",method = RequestMethod.POST)
+    @RequestMapping(value = "", method = RequestMethod.POST)
     @ResponseBody
-    RespJSON judge(HttpServletRequest request, Integer qId, String choose){
+    RespJSON judge(HttpServletRequest request, Integer qId, String choose) {
         //检查选项是否存在
         WasteType chooseType = wasteTypeService.selectByName(choose);
-        if(chooseType==null)
+        if (chooseType == null)
             return new RespJSON(StatusCode.CHOOSE_NOT_FOUND.getCode(), StatusCode.CHOOSE_NOT_FOUND.getMsg(), null);
         //从session取得用户信息
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute(Constants.SESSION_USER);
         //判断是否选择正确
-        if(qnaService.judge(qId, chooseType.getId())){
+        if (qnaService.judge(qId, chooseType.getId())) {
             //选择正确就使数据库right记录+1
             qnaService.updateQNARightAddOneById(qId);
             //插入选择记录
-            QNARecord qnaRecord = new QNARecord(user.getId(),qId,chooseType.getId(),true, new Date());
+            QNARecord qnaRecord = new QNARecord(user.getId(), qId, chooseType.getId(), true, new Date());
             qnaRecordService.insertOne(qnaRecord);
             return new RespJSON(StatusCode.CHOOSE_RIGHT.getCode(), StatusCode.CHOOSE_RIGHT.getMsg(), null);
-        }else {
+        } else {
             //选择错误就使数据库wrong记录+1
             qnaService.updateQNAWrongAddOneById(qId);
             //插入选择记录
-            QNARecord qnaRecord = new QNARecord(user.getId(),qId,chooseType.getId(),false, new Date());
+            QNARecord qnaRecord = new QNARecord(user.getId(), qId, chooseType.getId(), false, new Date());
             qnaRecordService.insertOne(qnaRecord);
             return new RespJSON(StatusCode.CHOOSE_WRONG.getCode(), StatusCode.CHOOSE_WRONG.getMsg(), null);
         }
     }
 
-    @RequestMapping(value = "/rank",method = RequestMethod.GET)
+    /**
+     * 排行榜
+     *
+     * @return List<QNA>
+     */
+    @RequestMapping(value = "/rank", method = RequestMethod.GET)
     @ResponseBody
-    RespJSON getRankList(){
+    RespJSON getRankList() {
         List<QNARank> list = qnaRecordService.selectQNARank();
         return new RespJSON(StatusCode.SUCCESS.getCode(), StatusCode.SUCCESS.getMsg(), list);
     }

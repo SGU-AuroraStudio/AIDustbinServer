@@ -1,5 +1,10 @@
 package com.aurora.domain.base;
 
+/**
+ * @Author Yao
+ * @Date 2021/3/25 12:38
+ * @Description
+ */
 public class RespJSON {
     Integer status;
     String msg;

@@ -9,10 +9,16 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * @Author Yao
+ * @Date 2021/3/23 12:09
+ * @Description
+ */
 @Service
 public class QNAServiceImpl implements IQNAService {
     @Autowired
     QNAMapper qnaMapper;
+
     @Override
     public QNA getRandomQNA() {
         return qnaMapper.selectOneByRandom();
@@ -25,16 +31,16 @@ public class QNAServiceImpl implements IQNAService {
         criteria.andIdEqualTo(id);
         criteria.andAnswerEqualTo(choose);
         List<QNA> list = qnaMapper.selectByExample(example);
-        return list.size()>0;
+        return list.size() > 0;
     }
 
     @Override
-    public boolean updateQNARightAddOneById(Integer id){
-        return qnaMapper.updateRightById(id,1)>0;
+    public boolean updateQNARightAddOneById(Integer id) {
+        return qnaMapper.updateRightById(id, 1) > 0;
     }
 
     @Override
     public boolean updateQNAWrongAddOneById(Integer id) {
-        return qnaMapper.updateWrongById(id, 1)>0;
+        return qnaMapper.updateWrongById(id, 1) > 0;
     }
 }
