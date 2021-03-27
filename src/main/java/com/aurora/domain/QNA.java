@@ -1,5 +1,7 @@
 package com.aurora.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class QNA {
     private Integer id;
 

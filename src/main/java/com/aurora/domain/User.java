@@ -1,5 +1,7 @@
 package com.aurora.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.Date;
 
 public class User {
@@ -13,8 +15,10 @@ public class User {
 
     private String status;
 
+    @JsonIgnore
     private Date lastLogin;
 
+    @JsonIgnore
     private Date dateJoined;
 
     private byte[] profile;

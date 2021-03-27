@@ -65,5 +65,10 @@
         <!--       enableDeleteByExample="false" enableSelectByExample="true"-->
         <!--       selectByExampleQueryId="false">-->
         <!--</table>-->
+        <!--<table tableName="waste_type" domainObjectName="WasteType"-->
+        <!--       enableCountByExample="false" enableUpdateByExample="false"-->
+        <!--       enableDeleteByExample="false" enableSelectByExample="false"-->
+        <!--       selectByExampleQueryId="false">-->
+        <!--</table>-->
     </context>
 </generatorConfiguration>

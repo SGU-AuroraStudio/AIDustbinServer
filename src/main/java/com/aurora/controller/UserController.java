@@ -34,9 +34,13 @@ public class UserController {
     @ResponseBody
     RespJSON login(HttpServletRequest request, HttpServletResponse response) {
         System.out.println("loginPage...");
-        return new RespJSON(StatusCode.SUCCESS.getCode(), StatusCode.SUCCESS.getMsg(), request.getSession().getAttribute(Constants.SESSION_USER));
+        if(request.getSession().getAttribute(Constants.SESSION_KEY)==null)
+            return new RespJSON(StatusCode.NOT_LOGIN.getCode(), StatusCode.NOT_LOGIN.getMsg(), request.getSession().getAttribute(Constants.SESSION_USER));
+        else
+            return new RespJSON(StatusCode.SUCCESS.getCode(), StatusCode.SUCCESS.getMsg(), request.getSession().getAttribute(Constants.SESSION_USER));
     }
 
+    //TODO:只传两个参数，id和password，实现根据用户名或手机号或邮箱登录
     @RequestMapping(value = "/doLogin", method = {RequestMethod.POST})
     @ResponseBody
     RespJSON doLogin(

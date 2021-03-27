@@ -24,35 +24,35 @@ public class UserServiceImpl implements IUserService {
     public User findByAccount(String account){
         UserExample example = new UserExample();
         example.createCriteria().andAccountEqualTo(account);
-        List<User> users = userMapper.selectByExampleWithBLOBs(example);
-        if(users==null)
+        List<User> list = userMapper.selectByExampleWithBLOBs(example);
+        if(list==null)
             return null;
         else
-            return users.get(0);
+            return list.get(0);
     }
 
-    public User selectByAccountAndPassword(String account, String password){
+    private User selectByAccountAndPassword(String account, String password){
         UserExample example = new UserExample();
         UserExample.Criteria criteria = example.createCriteria();
         criteria.andAccountEqualTo(account);
         criteria.andPasswordEqualTo(password);
-        List<User> users = userMapper.selectByExampleWithBLOBs(example);
-        if(users==null)
-            return null;
+        List<User> list = userMapper.selectByExampleWithBLOBs(example);
+        if(list.size()>0)
+            return list.get(0);
         else
-            return users.get(0);
+            return null;
     }
 
-    public User selectByIdAndPassword(String id, String password){
+    private User selectByIdAndPassword(String id, String password){
         UserExample example = new UserExample();
         UserExample.Criteria criteria = example.createCriteria();
         criteria.andIdEqualTo(id);
         criteria.andPasswordEqualTo(password);
-        List<User> users = userMapper.selectByExampleWithBLOBs(example);
-        if(users==null)
-            return null;
+        List<User> list = userMapper.selectByExampleWithBLOBs(example);
+        if(list.size()>0)
+            return list.get(0);
         else
-            return users.get(0);
+            return null;
     }
 
     @Override

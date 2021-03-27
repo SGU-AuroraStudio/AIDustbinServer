@@ -13,6 +13,13 @@ public class QNARecord {
 
     private Date createdTime;
 
+    public QNARecord(String userId, Integer qnaId, Integer choose, Date createdTime) {
+        this.userId = userId;
+        this.qnaId = qnaId;
+        this.choose = choose;
+        this.createdTime = createdTime;
+    }
+
     public Integer getId() {
         return id;
     }
