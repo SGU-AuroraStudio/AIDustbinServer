@@ -11,6 +11,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ * @Author Yao
+ * @Date 2021/3/23 12:10
+ * @Description 问答Q&A控制类
+ */
 @Controller
 @RequestMapping("/qna")
 public class QNAController {
@@ -20,9 +25,10 @@ public class QNAController {
     @RequestMapping("")
     @ResponseBody
     RespJSON getRandomQNA(HttpServletRequest request){
-        if(request.getSession().getAttribute(Constants.SESSION_KEY) == null)
-            return new RespJSON(StatusCode.NOT_LOGIN.getCode(), StatusCode.NOT_LOGIN.getMsg(), null);
-        else
-            return new RespJSON(StatusCode.SUCCESS.getCode(), StatusCode.SUCCESS.getMsg(), qnaService.getRandomQNA());
+        return new RespJSON(StatusCode.SUCCESS.getCode(), StatusCode.SUCCESS.getMsg(), qnaService.getRandomQNA());
+    }
+
+    RespJSON judge(){
+        return new RespJSON(StatusCode.NOT_LOGIN.getCode(), StatusCode.NOT_LOGIN.getMsg(), null);
     }
 }

@@ -18,6 +18,11 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.Date;
 
+/**
+ * @Author Yao
+ * @Date 2021/3/21 19:50
+ * @Description 用户控制类
+ */
 @Controller
 @RequestMapping("/user")
 public class UserController {
@@ -29,10 +34,7 @@ public class UserController {
     @ResponseBody
     RespJSON login(HttpServletRequest request, HttpServletResponse response) {
         System.out.println("loginPage...");
-        if(request.getSession().getAttribute(Constants.SESSION_KEY)!=null)
-            return new RespJSON(StatusCode.SUCCESS.getCode(), StatusCode.SUCCESS.getMsg(), request.getSession().getAttribute(Constants.SESSION_USER));
-        else
-            return new RespJSON(StatusCode.NOT_LOGIN.getCode(), StatusCode.NOT_LOGIN.getMsg(), null);
+        return new RespJSON(StatusCode.SUCCESS.getCode(), StatusCode.SUCCESS.getMsg(), request.getSession().getAttribute(Constants.SESSION_USER));
     }
 
     @RequestMapping(value = "/doLogin", method = {RequestMethod.POST})
