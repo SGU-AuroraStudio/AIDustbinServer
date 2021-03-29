@@ -113,8 +113,7 @@ public class UserController {
         //尝试保存图片
         if (file != null) {
             //文件夹路径
-            String path = request.getSession().getServletContext().getRealPath("");
-            String folderPath = new File(path).getParentFile().getParentFile().getParent() + "/dustbinProfile";
+            String folderPath = Constants.LOCAL_PROFILE_BASE_PATH;
             //----设置文件名----
             //格式化日期
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
@@ -132,6 +131,7 @@ public class UserController {
             //保存文件，当前模式会覆盖旧文件
             try {
                 file.transferTo(targetFile);
+                System.out.println(folderPath+fileName);
                 //设置用户图片url
                 user.setProfile(Constants.SERVER_BASE_HTTP_URL + "/profile/" + fileName);
                 fileSaveSuccess=true;

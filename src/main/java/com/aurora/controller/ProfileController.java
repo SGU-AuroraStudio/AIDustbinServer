@@ -18,7 +18,7 @@ import java.util.Map;
 /**
  * @Author Yao
  * @Date 2021/3/29 11:54
- * @Description
+ * @Description 通过Controller获取图片，可以防止未登录操作
  */
 @Controller
 @RequestMapping("/profile")
@@ -43,7 +43,7 @@ public class ProfileController {
         //-----base64转byte[]转图片 开始-----
 //        BASE64Decoder decoder = new BASE64Decoder();
 //        byte[] bytes1 = decoder.decodeBuffer(profile_base64);
-//        BufferedOutputStream bout = new BufferedOutputStream(new FileOutputStream(new File(Constants.LOCAL_PROFILE_BASE_PATH + "/" + fileName));
+//        BufferedOutputStream bout = new BufferedOutputStream(new FileOutputStream(new File(Constants.LOCAL_PROFILE_BASE_PATH + "/" + fileName)));
 //        bout.write(bytes1);
 //        bout.close();
         //-----base64转byte[]转图片 结束-----
