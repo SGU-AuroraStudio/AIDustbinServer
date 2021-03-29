@@ -1,6 +1,6 @@
 package com.aurora.interceptor;
 
-import com.aurora.util.Constants;
+import com.aurora.domain.base.Constants;
 import org.springframework.web.servlet.HandlerInterceptor;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

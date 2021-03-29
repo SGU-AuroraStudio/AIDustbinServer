@@ -9,12 +9,10 @@ import com.aurora.domain.base.StatusCode;
 import com.aurora.service.impl.QNARecordServiceImpl;
 import com.aurora.service.impl.QNAServiceImpl;
 import com.aurora.service.impl.WasteTypeServiceImpl;
-import com.aurora.util.Constants;
+import com.aurora.domain.base.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -43,7 +41,7 @@ public class QNAController {
      *
      * @return QNA
      */
-    @RequestMapping(value = "", method = RequestMethod.GET)
+    @GetMapping(value = "")
     @ResponseBody
     RespJSON getRandomQNA() {
         return new RespJSON(StatusCode.SUCCESS.getCode(), StatusCode.SUCCESS.getMsg(), qnaService.getRandomQNA());
@@ -56,7 +54,7 @@ public class QNAController {
      * @param choose 用户选的选项的内容（垃圾类型）
      * @return JSON
      */
-    @RequestMapping(value = "", method = RequestMethod.POST)
+    @PostMapping(value = "")
     @ResponseBody
     RespJSON judge(HttpServletRequest request, Integer qId, String choose) {
         //检查选项是否存在
@@ -89,7 +87,7 @@ public class QNAController {
      *
      * @return List<QNA>
      */
-    @RequestMapping(value = "/rank", method = RequestMethod.GET)
+    @GetMapping(value = "/rank")
     @ResponseBody
     RespJSON getRankList() {
         List<QNARank> list = qnaRecordService.selectQNARank();

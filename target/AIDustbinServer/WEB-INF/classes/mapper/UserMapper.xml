@@ -162,6 +162,9 @@
       <if test="profile != null">
         profile = #{profile,jdbcType=VARCHAR},
       </if>
+      <if test="profile == null">
+        profile = profile,
+      </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>

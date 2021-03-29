@@ -17,12 +17,21 @@
     <context:component-scan base-package="com.aurora.dao"/>
     <context:component-scan base-package="com.aurora.service"/>
     <context:property-placeholder location="classpath:conf/database.properties" ignore-unresolvable="true"/>
+
+    <!--会自动注册RequestMappingHandlerMapping、RequestMappingHandlerAdapter与ExceptionHandlerExceptionResolver 三个bean-->
+    <!--使用ResponseBody等等要加-->
     <mvc:annotation-driven/>
+
+    <!--连接池-->
     <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource">
         <property name="driverClassName" value="${jdbc.driver}"/>
         <property name="url" value="${jdbc.url}"/>
         <property name="username" value="${jdbc.username}"/>
         <property name="password" value="${jdbc.password}"/>
+        <!--配置初始化大小、最小、最大-->
+        <property name="initialSize" value="1" />
+        <property name="minIdle" value="3" />
+        <property name="maxActive" value="5" />
     </bean>
 
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
