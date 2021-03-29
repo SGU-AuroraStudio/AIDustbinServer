@@ -26,7 +26,7 @@ public class ProfileController {
 
     @RequestMapping("/{fileName}")
     @ResponseBody
-    public RespJSON test(@PathVariable String fileName) throws Exception {
+    public RespJSON getProfile(@PathVariable String fileName) throws Exception {
         //-----图片转byte[]转base64 开始-----
         File profile = new File(Constants.LOCAL_PROFILE_BASE_PATH + "/" + fileName);
         //检查图片存不存在
