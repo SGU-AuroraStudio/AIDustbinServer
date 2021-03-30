@@ -1,10 +1,10 @@
 package com.aurora.controller;
 
 import com.aurora.domain.User;
+import com.aurora.domain.base.Constants;
 import com.aurora.domain.base.RespJSON;
 import com.aurora.domain.base.StatusCode;
 import com.aurora.service.impl.UserServiceImpl;
-import com.aurora.domain.base.Constants;
 import com.aurora.util.RandomNickName;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -131,10 +131,10 @@ public class UserController {
             //保存文件，当前模式会覆盖旧文件
             try {
                 file.transferTo(targetFile);
-                System.out.println(folderPath+fileName);
+                System.out.println(folderPath + fileName);
                 //设置用户图片url
                 user.setProfile(Constants.SERVER_BASE_HTTP_URL + "/profile/" + fileName);
-                fileSaveSuccess=true;
+                fileSaveSuccess = true;
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -144,7 +144,7 @@ public class UserController {
             //更新session里的用户信息并返回JSON
             User newUser = userService.selectById(user.getId());
             session.setAttribute(Constants.SESSION_USER, newUser);
-            if(file!=null && !fileSaveSuccess)
+            if (file != null && !fileSaveSuccess)
                 return new RespJSON(StatusCode.FAIL.getCode(), "信息更新成功，但是更换头像失败", newUser);
             return new RespJSON(StatusCode.SUCCESS.getCode(), StatusCode.SUCCESS.getMsg(), newUser);
             //更新数据库失败
