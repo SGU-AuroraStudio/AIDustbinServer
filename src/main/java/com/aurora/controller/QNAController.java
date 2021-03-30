@@ -5,8 +5,7 @@ import com.aurora.domain.QNARecord;
 import com.aurora.domain.User;
 import com.aurora.domain.WasteType;
 import com.aurora.domain.base.Constants;
-import com.aurora.domain.base.RespJSON;
-import com.aurora.domain.base.StatusCode;
+import com.aurora.domain.base.ResponseJSON;
 import com.aurora.service.impl.QNARecordServiceImpl;
 import com.aurora.service.impl.QNAServiceImpl;
 import com.aurora.service.impl.WasteTypeServiceImpl;
@@ -21,6 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Author Yao
@@ -46,8 +46,8 @@ public class QNAController {
      */
     @GetMapping(value = "")
     @ResponseBody
-    RespJSON getRandomQNA() {
-        return new RespJSON(StatusCode.SUCCESS.getCode(), StatusCode.SUCCESS.getMsg(), qnaService.getRandomQNA());
+    Map<String, Object> getRandomQNA() {
+        return ResponseJSON.SUCCESS.getJSON(qnaService.getRandomQNA());
     }
 
     /**
@@ -59,11 +59,11 @@ public class QNAController {
      */
     @PostMapping(value = "")
     @ResponseBody
-    RespJSON judge(HttpServletRequest request, Integer qId, String choose) {
+    Map<String, Object> judge(HttpServletRequest request, Integer qId, String choose) {
         //检查选项是否存在
         WasteType chooseType = wasteTypeService.selectByName(choose);
         if (chooseType == null)
-            return new RespJSON(StatusCode.CHOOSE_NOT_FOUND.getCode(), StatusCode.CHOOSE_NOT_FOUND.getMsg(), null);
+            return ResponseJSON.CHOOSE_NOT_FOUND.getJSON();
         //从session取得用户信息
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute(Constants.SESSION_USER);
@@ -74,14 +74,14 @@ public class QNAController {
             //插入选择记录
             QNARecord qnaRecord = new QNARecord(user.getId(), qId, chooseType.getId(), true, new Date());
             qnaRecordService.insertOne(qnaRecord);
-            return new RespJSON(StatusCode.CHOOSE_RIGHT.getCode(), StatusCode.CHOOSE_RIGHT.getMsg(), null);
+            return ResponseJSON.CHOOSE_RIGHT.getJSON();
         } else {
             //选择错误就使数据库wrong记录+1
             qnaService.updateQNAWrongAddOneById(qId);
             //插入选择记录
             QNARecord qnaRecord = new QNARecord(user.getId(), qId, chooseType.getId(), false, new Date());
             qnaRecordService.insertOne(qnaRecord);
-            return new RespJSON(StatusCode.CHOOSE_WRONG.getCode(), StatusCode.CHOOSE_WRONG.getMsg(), null);
+            return ResponseJSON.CHOOSE_WRONG.getJSON();
         }
     }
 
@@ -92,8 +92,8 @@ public class QNAController {
      */
     @GetMapping(value = "/rank")
     @ResponseBody
-    RespJSON getRankList() {
+    Map<String, Object> getRankList() {
         List<QNARank> list = qnaRecordService.selectQNARank();
-        return new RespJSON(StatusCode.SUCCESS.getCode(), StatusCode.SUCCESS.getMsg(), list);
+        return ResponseJSON.SUCCESS.getJSON(list);
     }
 }

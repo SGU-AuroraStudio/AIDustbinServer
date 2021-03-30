@@ -2,8 +2,7 @@ package com.aurora.controller;
 
 import com.aurora.domain.User;
 import com.aurora.domain.base.Constants;
-import com.aurora.domain.base.RespJSON;
-import com.aurora.domain.base.StatusCode;
+import com.aurora.domain.base.ResponseJSON;
 import com.aurora.service.impl.UserServiceImpl;
 import com.aurora.util.RandomNickName;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +20,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 /**
@@ -40,11 +40,12 @@ public class UserController {
      */
     @RequestMapping(value = "/login")
     @ResponseBody
-    RespJSON login(HttpServletRequest request) {
+    Map<String, Object> login(HttpServletRequest request) {
         System.out.println("loginPage...");
-        if (request.getSession().getAttribute(Constants.SESSION_KEY) == null)
-            return new RespJSON(StatusCode.NOT_LOGIN.getCode(), StatusCode.NOT_LOGIN.getMsg(), null);
-        return new RespJSON(StatusCode.SUCCESS.getCode(), StatusCode.SUCCESS.getMsg(), request.getSession().getAttribute(Constants.SESSION_USER));
+        if (request.getSession().getAttribute(Constants.SESSION_KEY) != null)
+            return ResponseJSON.SUCCESS.getJSON(Constants.SESSION_USER);
+        else
+            return ResponseJSON.NOT_LOGIN.getJSON();
     }
 
     /**
@@ -56,20 +57,18 @@ public class UserController {
     //TODO:id和account需要限制，详情见github提交记录
     @RequestMapping(value = "/doLogin", method = {RequestMethod.POST})
     @ResponseBody
-    RespJSON doLogin(
+    Map<String, Object> doLogin(
             HttpServletRequest request, String id, String password) {
         System.out.println("doLogin...");
         User user = userService.login(id, password);
-        //user==null，返回登录失败
-        if (user == null)
-            return new RespJSON(StatusCode.USER_INFO_ERROR.getCode(), StatusCode.USER_INFO_ERROR.getMsg(), null);
-            //登录成功
-        else {
+        //如果user!=null，登录成功
+        if (user != null) {
             HttpSession session = request.getSession();
             session.setAttribute(Constants.SESSION_KEY, session.getId());
             session.setAttribute(Constants.SESSION_USER, user);
-            return new RespJSON(StatusCode.SUCCESS.getCode(), StatusCode.SUCCESS.getMsg(), user);
-        }
+            return ResponseJSON.SUCCESS.getJSON(user);
+        } else
+            return ResponseJSON.USER_INFO_ERROR.getJSON();
     }
 
     /**
@@ -81,19 +80,17 @@ public class UserController {
      */
     @RequestMapping(value = "/register", method = {RequestMethod.POST})
     @ResponseBody
-    RespJSON register(String id, String account, String password) {
+    Map<String, Object> register(String id, String account, String password) {
         System.out.println("register...");
-        User user = null;
         //用户存在，直接返回
-        if (userService.selectById(id) != null) {
-            return new RespJSON(StatusCode.USER_EXITS.getCode(), StatusCode.USER_EXITS.getMsg(), null);
-        }
-        user = new User(id, account, password, RandomNickName.generateName(), null, null, new Date(), null);
+        if (userService.selectById(id) != null)
+            return ResponseJSON.USER_EXITS.getJSON();
+        User user = new User(id, account, password, RandomNickName.generateName(), null, null, new Date(), null);
         //注册
         if (userService.register(user))
-            return new RespJSON(StatusCode.SUCCESS.getCode(), StatusCode.SUCCESS.getMsg(), user);
+            return ResponseJSON.SUCCESS.getJSON(user);
         else
-            return new RespJSON(StatusCode.FAIL.getCode(), StatusCode.FAIL.getMsg(), user);
+            return ResponseJSON.FAIL.getJSON(user);
     }
 
     /**
@@ -101,13 +98,13 @@ public class UserController {
      */
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     @ResponseBody
-    RespJSON update(HttpServletRequest request, User user, @RequestParam(value = "file", required = false) @Validated MultipartFile file) {
+    Map<String, Object> update(HttpServletRequest request, User user, @RequestParam(value = "file", required = false) @Validated MultipartFile file) {
         System.out.println("update...");
         //判断用户是否为session中的用户
         HttpSession session = request.getSession();
         User loginUser = (User) session.getAttribute(Constants.SESSION_USER);
         if (!user.getId().equals(loginUser.getId()))
-            return new RespJSON(StatusCode.FAIL.getCode(), StatusCode.FAIL.getMsg(), null);
+            return ResponseJSON.FAIL.getJSON();
         File targetFile = null;
         boolean fileSaveSuccess = false;
         //尝试保存图片
@@ -145,22 +142,16 @@ public class UserController {
             User newUser = userService.selectById(user.getId());
             session.setAttribute(Constants.SESSION_USER, newUser);
             if (file != null && !fileSaveSuccess)
-                return new RespJSON(StatusCode.FAIL.getCode(), "信息更新成功，但是更换头像失败", newUser);
-            return new RespJSON(StatusCode.SUCCESS.getCode(), StatusCode.SUCCESS.getMsg(), newUser);
-            //更新数据库失败
+                return ResponseJSON.USER_UPDATE_SUCCESS_BUT_PROFILE_ERROR.getJSON(newUser);
+            return ResponseJSON.SUCCESS.getJSON(newUser);
         } else {
             //把上传的图片删掉
-            if (targetFile != null && targetFile.exists())
+            if (targetFile != null && targetFile.exists() && file!=null)
                 targetFile.delete();
-            return new RespJSON(StatusCode.FAIL.getCode(), StatusCode.FAIL.getMsg(), null);
+            return ResponseJSON.FAIL.getJSON();
         }
 
     }
 
-//    @RequestMapping(value = "/uploadProfile")
-//    @ResponseBody
-//    RespJSON uploadProfile(){
-//
-//    }
 
 }

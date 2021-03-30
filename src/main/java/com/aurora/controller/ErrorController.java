@@ -1,10 +1,11 @@
 package com.aurora.controller;
 
-import com.aurora.domain.base.RespJSON;
-import com.aurora.domain.base.StatusCode;
+import com.aurora.domain.base.ResponseJSON;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.Map;
 
 /**
  * @Author Yao
@@ -16,13 +17,13 @@ public class ErrorController {
 
     @RequestMapping("/404")
     @ResponseBody
-    RespJSON page404() {
-        return new RespJSON(StatusCode.NOT_FOUND_ERROR_404.getCode(), StatusCode.NOT_FOUND_ERROR_404.getMsg(), null);
+    Map<String, Object> page404() {
+        return ResponseJSON.NOT_FOUND_ERROR_404.getJSON();
     }
 
     @RequestMapping("/500")
     @ResponseBody
-    RespJSON page500() {
-        return new RespJSON(StatusCode.SERVER_ERROR_500.getCode(), StatusCode.SERVER_ERROR_500.getMsg(), null);
+    Map<String, Object> page500() {
+        return ResponseJSON.SERVER_ERROR_500.getJSON();
     }
 }

@@ -2,6 +2,7 @@ package com.aurora.controller;
 
 import com.aurora.domain.User;
 import com.aurora.domain.base.Constants;
+import com.aurora.domain.base.ResponseJSON;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,6 +24,7 @@ public class ProfileController {
     @RequestMapping("/{fileName}")
 //    @ResponseBody
     public void getProfile(@PathVariable String fileName, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        response.setCharacterEncoding("utf-8");
         //-----图片转byte[] 开始-----
         File profile = new File(Constants.LOCAL_PROFILE_BASE_PATH + "/" + fileName);
         //检查图片存不存在
@@ -31,6 +33,8 @@ public class ProfileController {
         User user = (User) request.getSession().getAttribute(Constants.SESSION_USER);
         String userRealProfileName = user.getProfile().split("/")[5];
         if (!profile.exists() || !userRealProfileName.equals(fileName)) {
+            response.setContentType("application/json");
+            response.getWriter().print("{\"code\":400,\"message\":\"失败\",\"data\":null}");
             return;
         }
         FileInputStream in = new FileInputStream(profile);
