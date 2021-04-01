@@ -2,7 +2,6 @@ package com.aurora.controller;
 
 import com.aurora.domain.User;
 import com.aurora.domain.base.Constants;
-import com.aurora.domain.base.ResponseJSON;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,9 +26,7 @@ public class ProfileController {
         response.setCharacterEncoding("utf-8");
         //-----图片转byte[] 开始-----
         File profile = new File(Constants.LOCAL_PROFILE_BASE_PATH + "/" + fileName);
-        //检查图片存不存在
-//        if(!profile.exists())
-//            return new RespJSON(StatusCode.NOT_FOUND_ERROR_404.getCode(),StatusCode.NOT_FOUND_ERROR_404.getMsg(), null);
+        //检查图片存不存在，检查是否是用户的头像
         User user = (User) request.getSession().getAttribute(Constants.SESSION_USER);
         String userRealProfileName = user.getProfile().split("/")[5];
         if (!profile.exists() || !userRealProfileName.equals(fileName)) {
@@ -48,8 +45,11 @@ public class ProfileController {
         //图片转byte[]转base64
 //        BASE64Encoder encoder = new BASE64Encoder();
 //        String profile_base64 = encoder.encode(bytes);
+//        Map<String, Object> data = new HashMap<String, Object>();
+//        data.put("fileName", fileName);
+//        data.put("profile", profile_base64);
 
-        //-----base64转byte[]转图片 开始-----
+        //-----base64转byte[]转图片 开始----- 用不着，APP用的
 //        BASE64Decoder decoder = new BASE64Decoder();
 //        byte[] bytes1 = decoder.decodeBuffer(profile_base64);
 //        BufferedOutputStream bout = new BufferedOutputStream(new FileOutputStream(new File(Constants.LOCAL_PROFILE_BASE_PATH + "/" + fileName)));
@@ -57,9 +57,6 @@ public class ProfileController {
 //        bout.close();
         //-----base64转byte[]转图片 结束-----
 
-        //把文件名和图片base封装到data里
-//        Map<String, Object> data = new HashMap<String, Object>();
-//        data.put("fileName", fileName);
-//        data.put("profile", profile_base64);
+
     }
 }

@@ -70,5 +70,25 @@
         <!--       enableDeleteByExample="false" enableSelectByExample="false"-->
         <!--       selectByExampleQueryId="false">-->
         <!--</table>-->
+        <table tableName="moment" domainObjectName="Moment"
+               enableCountByExample="false" enableUpdateByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="true"
+               selectByExampleQueryId="true">
+        </table>
+        <table tableName="moment_image" domainObjectName="MomentImage"
+               enableCountByExample="false" enableUpdateByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="true"
+               selectByExampleQueryId="true">
+        </table>
+        <table tableName="moment_thumb_record" domainObjectName="MomentThumbRecord"
+               enableCountByExample="false" enableUpdateByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="true"
+               selectByExampleQueryId="true">
+        </table>
+        <table tableName="comment" domainObjectName="Comment"
+               enableCountByExample="false" enableUpdateByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="true"
+               selectByExampleQueryId="true">
+        </table>
     </context>
 </generatorConfiguration>

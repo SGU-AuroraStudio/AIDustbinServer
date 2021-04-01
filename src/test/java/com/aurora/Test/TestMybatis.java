@@ -1,17 +1,24 @@
-//package com.aurora.Test;
-//
-//import com.aurora.service.impl.UserServiceImpl;
-//import org.junit.Test;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.test.context.ContextConfiguration;
-//
-//@ContextConfiguration({"classpath:conf/spring-mvc.xml","classpath:conf/spring-mybatis.xml"})
-//public class TestMybatis {
-//
-//    @Autowired
-//    UserServiceImpl userServiceImpl;
-//    @Test
-//    public void testMybatis(){
-//        System.out.println(userServiceImpl.findById("aaa"));
-//    }
-//}
+package com.aurora.Test;
+
+import com.aurora.domain.Moment;
+import com.aurora.service.impl.MomentServiceImpl;
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+
+import java.util.List;
+
+@ContextConfiguration({"classpath:conf/spring-mvc.xml","classpath:conf/spring-mybatis.xml"})
+public class TestMybatis {
+
+    @Autowired
+    MomentServiceImpl momentService;
+
+    @Test
+    public void  testSelectAll(){
+        List<Moment> moments = momentService.selectAll();
+        for (Moment moment : moments) {
+            System.out.println(moment);
+        }
+    }
+}

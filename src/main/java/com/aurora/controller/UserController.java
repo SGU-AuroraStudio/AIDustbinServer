@@ -98,7 +98,7 @@ public class UserController {
      */
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     @ResponseBody
-    Map<String, Object> update(HttpServletRequest request, User user, @RequestParam(value = "file", required = false) @Validated MultipartFile file) {
+    Map<String, Object> update(HttpServletRequest request, User user, MultipartFile file) {
         System.out.println("update...");
         //判断用户是否为session中的用户
         HttpSession session = request.getSession();

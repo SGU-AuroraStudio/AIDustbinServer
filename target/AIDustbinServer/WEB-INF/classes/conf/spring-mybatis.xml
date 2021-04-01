@@ -44,6 +44,7 @@
         <property name="basePackage" value="com.aurora.dao"/>
         <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
     </bean>
+
     <!--事务管理器-->
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <property name="dataSource" ref="dataSource"/>
@@ -62,7 +63,6 @@
             <tx:method name="select*" propagation="SUPPORTS" read-only="true"/>
             <tx:method name="get*" propagation="SUPPORTS" read-only="true"/>
             <tx:method name="login" propagation="SUPPORTS" read-only="true"/>
-
         </tx:attributes>
     </tx:advice>
 

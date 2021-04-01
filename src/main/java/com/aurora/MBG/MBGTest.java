@@ -15,7 +15,7 @@ public class MBGTest {
 
     public static void main(String[] args) throws Exception {
         List<String> warnings = new ArrayList<String>();
-        boolean overwrite = false;
+        boolean overwrite = true;
         File configFile = Resources.getResourceAsFile("conf/generatorConfig.xml");
         ConfigurationParser cp = new ConfigurationParser(warnings);
         Configuration config = cp.parseConfiguration(configFile);
