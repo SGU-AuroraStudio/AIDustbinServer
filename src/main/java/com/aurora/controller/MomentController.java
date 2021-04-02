@@ -47,35 +47,36 @@ public class MomentController {
         //检查登录人id和动态的发表人id是否相同，不同就不给操作
         if(moment.getUserId().equals(user.getId()))
             return ResponseJSON.FAIL.getJSON();
-
         if(momentService.deleteById(id))
             return ResponseJSON.SUCCESS.getJSON();
         else
             return ResponseJSON.FAIL.getJSON();
     }
 
-
     @PostMapping()
     @ResponseBody
     public Map<String, Object> addMoment(HttpServletRequest request, @RequestParam(value = "content") String content, MultipartFile[] images) throws IOException {
-
         //插入动态内容
-        Moment moment = new Moment();
+
         User user = (User) request.getSession().getAttribute(Constants.SESSION_USER);
-        moment.setUserId(user.getId());
-        moment.setContent(content);
-        moment.setCreatedTime(new Date());
+        Moment moment = new Moment(user.getId(), content, 0, new Date());
+        // moment分两次插入
+        // 第一次插入获取momentID
         momentService.insert(moment);
+        int no=0;
         //插入图片
         if(images!=null && images.length>0) {
             for (MultipartFile image : images) {
                 if(image.getSize()<10)
                     continue;
-                MomentImage momentImage = new MomentImage(null, moment.getId(), new Date(), false, image.getBytes());
+                MomentImage momentImage = new MomentImage(null, ++no, moment.getId(), new Date(), image.getBytes());
                 if(!momentImageService.insert(momentImage))
                     return ResponseJSON.FAIL.getJSON();
             }
         }
+        //第二次更新图片数量
+        moment.setImageCount(no);
+        momentService.updateByIdSelective(moment);
         return ResponseJSON.SUCCESS.getJSON(moment);
     }
 }

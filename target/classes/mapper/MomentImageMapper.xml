@@ -3,9 +3,9 @@
 <mapper namespace="com.aurora.dao.MomentImageMapper">
   <resultMap id="BaseResultMap" type="com.aurora.domain.MomentImage">
     <id column="id" jdbcType="INTEGER" property="id" />
+    <id column="image_no" jdbcType="TINYINT" property="imageNo" />
     <result column="moment_id" jdbcType="INTEGER" property="momentId" />
     <result column="created_time" jdbcType="TIMESTAMP" property="createdTime" />
-    <result column="deleted" jdbcType="BIT" property="deleted" />
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.aurora.domain.MomentImage">
     <result column="image" jdbcType="LONGVARBINARY" property="image" />
@@ -40,7 +40,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, moment_id, created_time, deleted
+    id, image_no, moment_id, created_time
   </sql>
   <sql id="Blob_Column_List">
     image
@@ -77,23 +77,25 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+  <select id="selectByPrimaryKey" parameterType="com.aurora.domain.MomentImageKey" resultMap="ResultMapWithBLOBs">
     select 
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
     from moment_image
     where id = #{id,jdbcType=INTEGER}
+      and image_no = #{imageNo,jdbcType=TINYINT}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+  <delete id="deleteByPrimaryKey" parameterType="com.aurora.domain.MomentImageKey">
     delete from moment_image
     where id = #{id,jdbcType=INTEGER}
+      and image_no = #{imageNo,jdbcType=TINYINT}
   </delete>
   <insert id="insert" parameterType="com.aurora.domain.MomentImage">
-    insert into moment_image (id, moment_id, created_time, 
-      deleted, image)
-    values (#{id,jdbcType=INTEGER}, #{momentId,jdbcType=INTEGER}, #{createdTime,jdbcType=TIMESTAMP}, 
-      #{deleted,jdbcType=BIT}, #{image,jdbcType=LONGVARBINARY})
+    insert into moment_image (id, image_no, moment_id, 
+      created_time, image)
+    values (#{id,jdbcType=INTEGER}, #{imageNo,jdbcType=TINYINT}, #{momentId,jdbcType=INTEGER}, 
+      #{createdTime,jdbcType=TIMESTAMP}, #{image,jdbcType=LONGVARBINARY})
   </insert>
   <insert id="insertSelective" parameterType="com.aurora.domain.MomentImage">
     insert into moment_image
@@ -101,14 +103,14 @@
       <if test="id != null">
         id,
       </if>
+      <if test="imageNo != null">
+        image_no,
+      </if>
       <if test="momentId != null">
         moment_id,
       </if>
       <if test="createdTime != null">
         created_time,
-      </if>
-      <if test="deleted != null">
-        deleted,
       </if>
       <if test="image != null">
         image,
@@ -118,14 +120,14 @@
       <if test="id != null">
         #{id,jdbcType=INTEGER},
       </if>
+      <if test="imageNo != null">
+        #{imageNo,jdbcType=TINYINT},
+      </if>
       <if test="momentId != null">
         #{momentId,jdbcType=INTEGER},
       </if>
       <if test="createdTime != null">
         #{createdTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="deleted != null">
-        #{deleted,jdbcType=BIT},
       </if>
       <if test="image != null">
         #{image,jdbcType=LONGVARBINARY},
@@ -141,28 +143,26 @@
       <if test="createdTime != null">
         created_time = #{createdTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="deleted != null">
-        deleted = #{deleted,jdbcType=BIT},
-      </if>
       <if test="image != null">
         image = #{image,jdbcType=LONGVARBINARY},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
+      and image_no = #{imageNo,jdbcType=TINYINT}
   </update>
   <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.aurora.domain.MomentImage">
     update moment_image
     set moment_id = #{momentId,jdbcType=INTEGER},
       created_time = #{createdTime,jdbcType=TIMESTAMP},
-      deleted = #{deleted,jdbcType=BIT},
       image = #{image,jdbcType=LONGVARBINARY}
     where id = #{id,jdbcType=INTEGER}
+      and image_no = #{imageNo,jdbcType=TINYINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.aurora.domain.MomentImage">
     update moment_image
     set moment_id = #{momentId,jdbcType=INTEGER},
-      created_time = #{createdTime,jdbcType=TIMESTAMP},
-      deleted = #{deleted,jdbcType=BIT}
+      created_time = #{createdTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
+      and image_no = #{imageNo,jdbcType=TINYINT}
   </update>
 </mapper>

@@ -165,6 +165,66 @@ public class MomentImageExample {
             return (Criteria) this;
         }
 
+        public Criteria andImageNoIsNull() {
+            addCriterion("image_no is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andImageNoIsNotNull() {
+            addCriterion("image_no is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andImageNoEqualTo(Integer value) {
+            addCriterion("image_no =", value, "imageNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andImageNoNotEqualTo(Integer value) {
+            addCriterion("image_no <>", value, "imageNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andImageNoGreaterThan(Integer value) {
+            addCriterion("image_no >", value, "imageNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andImageNoGreaterThanOrEqualTo(Integer value) {
+            addCriterion("image_no >=", value, "imageNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andImageNoLessThan(Integer value) {
+            addCriterion("image_no <", value, "imageNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andImageNoLessThanOrEqualTo(Integer value) {
+            addCriterion("image_no <=", value, "imageNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andImageNoIn(List<Integer> values) {
+            addCriterion("image_no in", values, "imageNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andImageNoNotIn(List<Integer> values) {
+            addCriterion("image_no not in", values, "imageNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andImageNoBetween(Integer value1, Integer value2) {
+            addCriterion("image_no between", value1, value2, "imageNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andImageNoNotBetween(Integer value1, Integer value2) {
+            addCriterion("image_no not between", value1, value2, "imageNo");
+            return (Criteria) this;
+        }
+
         public Criteria andMomentIdIsNull() {
             addCriterion("moment_id is null");
             return (Criteria) this;
@@ -282,66 +342,6 @@ public class MomentImageExample {
 
         public Criteria andCreatedTimeNotBetween(Date value1, Date value2) {
             addCriterion("created_time not between", value1, value2, "createdTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andDeletedIsNull() {
-            addCriterion("deleted is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andDeletedIsNotNull() {
-            addCriterion("deleted is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andDeletedEqualTo(Boolean value) {
-            addCriterion("deleted =", value, "deleted");
-            return (Criteria) this;
-        }
-
-        public Criteria andDeletedNotEqualTo(Boolean value) {
-            addCriterion("deleted <>", value, "deleted");
-            return (Criteria) this;
-        }
-
-        public Criteria andDeletedGreaterThan(Boolean value) {
-            addCriterion("deleted >", value, "deleted");
-            return (Criteria) this;
-        }
-
-        public Criteria andDeletedGreaterThanOrEqualTo(Boolean value) {
-            addCriterion("deleted >=", value, "deleted");
-            return (Criteria) this;
-        }
-
-        public Criteria andDeletedLessThan(Boolean value) {
-            addCriterion("deleted <", value, "deleted");
-            return (Criteria) this;
-        }
-
-        public Criteria andDeletedLessThanOrEqualTo(Boolean value) {
-            addCriterion("deleted <=", value, "deleted");
-            return (Criteria) this;
-        }
-
-        public Criteria andDeletedIn(List<Boolean> values) {
-            addCriterion("deleted in", values, "deleted");
-            return (Criteria) this;
-        }
-
-        public Criteria andDeletedNotIn(List<Boolean> values) {
-            addCriterion("deleted not in", values, "deleted");
-            return (Criteria) this;
-        }
-
-        public Criteria andDeletedBetween(Boolean value1, Boolean value2) {
-            addCriterion("deleted between", value1, value2, "deleted");
-            return (Criteria) this;
-        }
-
-        public Criteria andDeletedNotBetween(Boolean value1, Boolean value2) {
-            addCriterion("deleted not between", value1, value2, "deleted");
             return (Criteria) this;
         }
     }

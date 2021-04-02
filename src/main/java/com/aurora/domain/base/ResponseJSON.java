@@ -18,7 +18,7 @@ public enum ResponseJSON {
     USER_UPDATE_SUCCESS_BUT_PROFILE_ERROR(400,"用户信息修改成功，但是头像上传失败"),
     CHOOSE_WRONG(400, "选择错误"),
     CHOOSE_NOT_FOUND(400,"未知选项"),
-    NOT_FOUND_ERROR_404(404, "请求资源不存在"),
+    NOT_FOUND_ERROR_404(404, "资源不存在"),
     UNKNOWN_ERROR(499,"未知错误"),
     SERVER_ERROR_500(500, "服务器错误");
 

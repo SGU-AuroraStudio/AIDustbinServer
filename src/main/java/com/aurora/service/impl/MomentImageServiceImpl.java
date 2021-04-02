@@ -20,11 +20,15 @@ public class MomentImageServiceImpl implements IMomentImageService {
     MomentImageMapper momentImageMapper;
 
     @Override
-    public List<MomentImage> selectByMomentId(Integer momentId) {
+    public MomentImage selectByMomentIdAndImageNo(Integer momentId, Integer imageNo) {
         MomentImageExample example = new MomentImageExample();
         MomentImageExample.Criteria criteria = example.createCriteria();
         criteria.andMomentIdEqualTo(momentId);
-        return momentImageMapper.selectByExample(example);
+        criteria.andImageNoEqualTo(imageNo);
+        List<MomentImage> momentImages = momentImageMapper.selectByExampleWithBLOBs(example);
+        if(momentImages.size()==0)
+            return null;
+        return momentImages.get(0);
     }
 
     @Override

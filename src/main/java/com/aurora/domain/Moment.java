@@ -11,10 +11,21 @@ public class Moment {
 
     private String content;
 
+    private Integer imageCount;
+
     private Date createdTime;
 
     @JsonIgnore
     private Boolean deleted;
+
+    public Moment() { }
+
+    public Moment(String userId, String content, Integer imageCount, Date createdTime) {
+        this.userId = userId;
+        this.content = content;
+        this.imageCount = imageCount;
+        this.createdTime = createdTime;
+    }
 
     public Integer getId() {
         return id;
@@ -38,6 +49,14 @@ public class Moment {
 
     public void setContent(String content) {
         this.content = content == null ? null : content.trim();
+    }
+
+    public Integer getImageCount() {
+        return imageCount;
+    }
+
+    public void setImageCount(Integer imageCount) {
+        this.imageCount = imageCount;
     }
 
     public Date getCreatedTime() {

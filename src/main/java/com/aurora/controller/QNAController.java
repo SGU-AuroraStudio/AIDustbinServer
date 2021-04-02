@@ -1,9 +1,6 @@
 package com.aurora.controller;
 
-import com.aurora.domain.QNARank;
-import com.aurora.domain.QNARecord;
-import com.aurora.domain.User;
-import com.aurora.domain.WasteType;
+import com.aurora.domain.*;
 import com.aurora.domain.base.Constants;
 import com.aurora.domain.base.ResponseJSON;
 import com.aurora.service.impl.QNARecordServiceImpl;
@@ -44,10 +41,12 @@ public class QNAController {
      *
      * @return QNA
      */
-    @GetMapping(value = "")
+    @GetMapping
     @ResponseBody
-    Map<String, Object> getRandomQNA() {
-        return ResponseJSON.SUCCESS.getJSON(qnaService.getRandomQNA());
+    Map<String, Object> getRandomQNA(HttpServletRequest request) {
+        QNA qna = qnaService.getRandomQNA();
+        request.getSession().setAttribute(Constants.SESSION_QNA, qna);
+        return ResponseJSON.SUCCESS.getJSON();
     }
 
     /**
@@ -57,15 +56,20 @@ public class QNAController {
      * @param choose 用户选的选项的内容（垃圾类型）
      * @return JSON
      */
-    @PostMapping(value = "")
+    @PostMapping
     @ResponseBody
     Map<String, Object> judge(HttpServletRequest request, Integer qId, String choose) {
+        HttpSession session = request.getSession();
+        QNA qna = (QNA)session.getAttribute(Constants.SESSION_QNA);
+        //检查答题的题是否为获取到的题
+        if(qna.getId()!=qId)
+            return ResponseJSON.FAIL.getJSON();
         //检查选项是否存在
         WasteType chooseType = wasteTypeService.selectByName(choose);
         if (chooseType == null)
             return ResponseJSON.CHOOSE_NOT_FOUND.getJSON();
+
         //从session取得用户信息
-        HttpSession session = request.getSession();
         User user = (User) session.getAttribute(Constants.SESSION_USER);
         //判断是否选择正确
         if (qnaService.judge(qId, chooseType.getId())) {

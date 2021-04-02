@@ -2,10 +2,11 @@ package com.aurora.dao;
 
 import com.aurora.domain.MomentImage;
 import com.aurora.domain.MomentImageExample;
+import com.aurora.domain.MomentImageKey;
 import java.util.List;
 
 public interface MomentImageMapper {
-    int deleteByPrimaryKey(Integer id);
+    int deleteByPrimaryKey(MomentImageKey key);
 
     int insert(MomentImage record);
 
@@ -15,7 +16,7 @@ public interface MomentImageMapper {
 
     List<MomentImage> selectByExample(MomentImageExample example);
 
-    MomentImage selectByPrimaryKey(Integer id);
+    MomentImage selectByPrimaryKey(MomentImageKey key);
 
     int updateByPrimaryKeySelective(MomentImage record);
 

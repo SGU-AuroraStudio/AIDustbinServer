@@ -305,6 +305,66 @@ public class MomentExample {
             return (Criteria) this;
         }
 
+        public Criteria andImageCountIsNull() {
+            addCriterion("image_count is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andImageCountIsNotNull() {
+            addCriterion("image_count is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andImageCountEqualTo(Integer value) {
+            addCriterion("image_count =", value, "imageCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andImageCountNotEqualTo(Integer value) {
+            addCriterion("image_count <>", value, "imageCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andImageCountGreaterThan(Integer value) {
+            addCriterion("image_count >", value, "imageCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andImageCountGreaterThanOrEqualTo(Integer value) {
+            addCriterion("image_count >=", value, "imageCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andImageCountLessThan(Integer value) {
+            addCriterion("image_count <", value, "imageCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andImageCountLessThanOrEqualTo(Integer value) {
+            addCriterion("image_count <=", value, "imageCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andImageCountIn(List<Integer> values) {
+            addCriterion("image_count in", values, "imageCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andImageCountNotIn(List<Integer> values) {
+            addCriterion("image_count not in", values, "imageCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andImageCountBetween(Integer value1, Integer value2) {
+            addCriterion("image_count between", value1, value2, "imageCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andImageCountNotBetween(Integer value1, Integer value2) {
+            addCriterion("image_count not between", value1, value2, "imageCount");
+            return (Criteria) this;
+        }
+
         public Criteria andCreatedTimeIsNull() {
             addCriterion("created_time is null");
             return (Criteria) this;

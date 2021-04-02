@@ -5,6 +5,7 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="user_id" jdbcType="VARCHAR" property="userId" />
     <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="image_count" jdbcType="TINYINT" property="imageCount" />
     <result column="created_time" jdbcType="TIMESTAMP" property="createdTime" />
     <result column="deleted" jdbcType="BIT" property="deleted" />
   </resultMap>
@@ -38,7 +39,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, user_id, content, created_time, deleted
+    id, user_id, content, image_count, created_time, deleted
   </sql>
   <select id="selectByExample" parameterType="com.aurora.domain.MomentExample" resultMap="BaseResultMap">
     select
@@ -67,9 +68,11 @@
   </delete>
   <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.aurora.domain.Moment">
     insert into moment (id, user_id, content, 
-      created_time, deleted)
+      image_count, created_time, deleted
+      )
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, 
-      #{createdTime,jdbcType=TIMESTAMP}, #{deleted,jdbcType=BIT})
+      #{imageCount,jdbcType=TINYINT}, #{createdTime,jdbcType=TIMESTAMP}, #{deleted,jdbcType=BIT}
+      )
   </insert>
   <insert id="insertSelective" useGeneratedKeys="true" keyProperty="id" parameterType="com.aurora.domain.Moment">
     insert into moment
@@ -82,6 +85,9 @@
       </if>
       <if test="content != null">
         content,
+      </if>
+      <if test="imageCount != null">
+        image_count,
       </if>
       <if test="createdTime != null">
         created_time,
@@ -100,6 +106,9 @@
       <if test="content != null">
         #{content,jdbcType=VARCHAR},
       </if>
+      <if test="imageCount != null">
+        #{imageCount,jdbcType=TINYINT},
+      </if>
       <if test="createdTime != null">
         #{createdTime,jdbcType=TIMESTAMP},
       </if>
@@ -117,6 +126,9 @@
       <if test="content != null">
         content = #{content,jdbcType=VARCHAR},
       </if>
+      <if test="imageCount != null">
+        image_count = #{imageCount,jdbcType=TINYINT},
+      </if>
       <if test="createdTime != null">
         created_time = #{createdTime,jdbcType=TIMESTAMP},
       </if>
@@ -130,6 +142,7 @@
     update moment
     set user_id = #{userId,jdbcType=VARCHAR},
       content = #{content,jdbcType=VARCHAR},
+      image_count = #{imageCount,jdbcType=TINYINT},
       created_time = #{createdTime,jdbcType=TIMESTAMP},
       deleted = #{deleted,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}

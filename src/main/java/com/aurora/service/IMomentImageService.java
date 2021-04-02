@@ -10,7 +10,7 @@ import java.util.List;
  * @Description
  */
 public interface IMomentImageService {
-    List<MomentImage> selectByMomentId(Integer momentId);
+    MomentImage selectByMomentIdAndImageNo(Integer momentId, Integer imageNo);
 
     boolean insert(MomentImage momentImage);
 }

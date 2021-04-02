@@ -23,15 +23,14 @@ public class ProfileController {
     @RequestMapping("/{fileName}")
 //    @ResponseBody
     public void getProfile(@PathVariable String fileName, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        response.setCharacterEncoding("utf-8");
         //-----图片转byte[] 开始-----
         File profile = new File(Constants.LOCAL_PROFILE_BASE_PATH + "/" + fileName);
         //检查图片存不存在，检查是否是用户的头像
         User user = (User) request.getSession().getAttribute(Constants.SESSION_USER);
         String userRealProfileName = user.getProfile().split("/")[5];
         if (!profile.exists() || !userRealProfileName.equals(fileName)) {
-            response.setContentType("application/json");
-            response.getWriter().print("{\"code\":400,\"message\":\"失败\",\"data\":null}");
+            response.setContentType("application/json;charset=UTF-8");
+            response.getWriter().print("{\"code\":404,\"message\":\"资源不存在\",\"data\":null}");
             return;
         }
         FileInputStream in = new FileInputStream(profile);
@@ -39,7 +38,6 @@ public class ProfileController {
         in.read(bytes);
         in.close();
         response.getOutputStream().write(bytes);
-
         //-----图片转byte[] 结束-----
 
         //图片转byte[]转base64

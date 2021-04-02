@@ -14,8 +14,9 @@ public interface IMomentService {
 
     Moment selectById(Integer id);
 
-
     List<Moment> selectAll();
 
     boolean deleteById(Integer id);
+
+    boolean updateByIdSelective(Moment moment);
 }

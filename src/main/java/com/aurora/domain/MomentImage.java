@@ -2,31 +2,20 @@ package com.aurora.domain;
 
 import java.util.Date;
 
-public class MomentImage {
-    private Integer id;
-
+public class MomentImage extends MomentImageKey {
     private Integer momentId;
 
     private Date createdTime;
 
-    private Boolean deleted;
-
     private byte[] image;
 
-    public MomentImage(Integer id, Integer momentId, Date createdTime, Boolean deleted, byte[] image) {
-        this.id = id;
+    public MomentImage() { super();}
+
+    public MomentImage(Integer id, Integer imageNo, Integer momentId, Date createdTime, byte[] image) {
+        super(id, imageNo);
         this.momentId = momentId;
         this.createdTime = createdTime;
-        this.deleted = deleted;
         this.image = image;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public Integer getMomentId() {
@@ -43,14 +32,6 @@ public class MomentImage {
 
     public void setCreatedTime(Date createdTime) {
         this.createdTime = createdTime;
-    }
-
-    public Boolean getDeleted() {
-        return deleted;
-    }
-
-    public void setDeleted(Boolean deleted) {
-        this.deleted = deleted;
     }
 
     public byte[] getImage() {
