@@ -365,73 +365,63 @@ public class CommentExample {
             return (Criteria) this;
         }
 
-        public Criteria andToUserIdIsNull() {
-            addCriterion("to_user_id is null");
+        public Criteria andToCommentIdIsNull() {
+            addCriterion("to_comment_id is null");
             return (Criteria) this;
         }
 
-        public Criteria andToUserIdIsNotNull() {
-            addCriterion("to_user_id is not null");
+        public Criteria andToCommentIdIsNotNull() {
+            addCriterion("to_comment_id is not null");
             return (Criteria) this;
         }
 
-        public Criteria andToUserIdEqualTo(String value) {
-            addCriterion("to_user_id =", value, "toUserId");
+        public Criteria andToCommentIdEqualTo(Integer value) {
+            addCriterion("to_comment_id =", value, "toCommentId");
             return (Criteria) this;
         }
 
-        public Criteria andToUserIdNotEqualTo(String value) {
-            addCriterion("to_user_id <>", value, "toUserId");
+        public Criteria andToCommentIdNotEqualTo(Integer value) {
+            addCriterion("to_comment_id <>", value, "toCommentId");
             return (Criteria) this;
         }
 
-        public Criteria andToUserIdGreaterThan(String value) {
-            addCriterion("to_user_id >", value, "toUserId");
+        public Criteria andToCommentIdGreaterThan(Integer value) {
+            addCriterion("to_comment_id >", value, "toCommentId");
             return (Criteria) this;
         }
 
-        public Criteria andToUserIdGreaterThanOrEqualTo(String value) {
-            addCriterion("to_user_id >=", value, "toUserId");
+        public Criteria andToCommentIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("to_comment_id >=", value, "toCommentId");
             return (Criteria) this;
         }
 
-        public Criteria andToUserIdLessThan(String value) {
-            addCriterion("to_user_id <", value, "toUserId");
+        public Criteria andToCommentIdLessThan(Integer value) {
+            addCriterion("to_comment_id <", value, "toCommentId");
             return (Criteria) this;
         }
 
-        public Criteria andToUserIdLessThanOrEqualTo(String value) {
-            addCriterion("to_user_id <=", value, "toUserId");
+        public Criteria andToCommentIdLessThanOrEqualTo(Integer value) {
+            addCriterion("to_comment_id <=", value, "toCommentId");
             return (Criteria) this;
         }
 
-        public Criteria andToUserIdLike(String value) {
-            addCriterion("to_user_id like", value, "toUserId");
+        public Criteria andToCommentIdIn(List<Integer> values) {
+            addCriterion("to_comment_id in", values, "toCommentId");
             return (Criteria) this;
         }
 
-        public Criteria andToUserIdNotLike(String value) {
-            addCriterion("to_user_id not like", value, "toUserId");
+        public Criteria andToCommentIdNotIn(List<Integer> values) {
+            addCriterion("to_comment_id not in", values, "toCommentId");
             return (Criteria) this;
         }
 
-        public Criteria andToUserIdIn(List<String> values) {
-            addCriterion("to_user_id in", values, "toUserId");
+        public Criteria andToCommentIdBetween(Integer value1, Integer value2) {
+            addCriterion("to_comment_id between", value1, value2, "toCommentId");
             return (Criteria) this;
         }
 
-        public Criteria andToUserIdNotIn(List<String> values) {
-            addCriterion("to_user_id not in", values, "toUserId");
-            return (Criteria) this;
-        }
-
-        public Criteria andToUserIdBetween(String value1, String value2) {
-            addCriterion("to_user_id between", value1, value2, "toUserId");
-            return (Criteria) this;
-        }
-
-        public Criteria andToUserIdNotBetween(String value1, String value2) {
-            addCriterion("to_user_id not between", value1, value2, "toUserId");
+        public Criteria andToCommentIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("to_comment_id not between", value1, value2, "toCommentId");
             return (Criteria) this;
         }
 

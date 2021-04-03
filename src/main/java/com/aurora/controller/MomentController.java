@@ -34,20 +34,20 @@ public class MomentController {
 
     @GetMapping
     @ResponseBody
-    public Map<String, Object> getMoment(){
+    public Map<String, Object> getMoment() {
         List<Moment> moments = momentService.selectAll();
         return ResponseJSON.SUCCESS.getJSON(moments);
     }
 
     @PostMapping("delete/{id}")
     @ResponseBody
-    public Map<String, Object> deleteMoment(HttpServletRequest request,@PathVariable Integer id){
+    public Map<String, Object> deleteMoment(HttpServletRequest request, @PathVariable Integer id) {
         User user = (User) request.getSession().getAttribute(Constants.SESSION_USER);
         Moment moment = momentService.selectById(id);
         //检查登录人id和动态的发表人id是否相同，不同就不给操作
-        if(moment.getUserId().equals(user.getId()))
+        if (moment.getUserId().equals(user.getId()))
             return ResponseJSON.FAIL.getJSON();
-        if(momentService.deleteById(id))
+        if (momentService.deleteById(id))
             return ResponseJSON.SUCCESS.getJSON();
         else
             return ResponseJSON.FAIL.getJSON();
@@ -56,21 +56,22 @@ public class MomentController {
     @PostMapping()
     @ResponseBody
     public Map<String, Object> addMoment(HttpServletRequest request, @RequestParam(value = "content") String content, MultipartFile[] images) throws IOException {
+        if (images.length > 9)
+            return ResponseJSON.MAX_FILE_COUNT_ERROR.getJSON();
         //插入动态内容
-
         User user = (User) request.getSession().getAttribute(Constants.SESSION_USER);
         Moment moment = new Moment(user.getId(), content, 0, new Date());
         // moment分两次插入
-        // 第一次插入获取momentID
+        // 第一次插入获取momentID，在xml里需要设置useGeneratedKeys="true" keyProperty="id"获取自增的id，否者为null
         momentService.insert(moment);
-        int no=0;
+        int no = 0;
         //插入图片
-        if(images!=null && images.length>0) {
+        if (images != null && images.length > 0) {
             for (MultipartFile image : images) {
-                if(image.getSize()<10)
+                if (image.getSize() < 10)
                     continue;
                 MomentImage momentImage = new MomentImage(null, ++no, moment.getId(), new Date(), image.getBytes());
-                if(!momentImageService.insert(momentImage))
+                if (!momentImageService.insert(momentImage))
                     return ResponseJSON.FAIL.getJSON();
             }
         }

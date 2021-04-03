@@ -1,5 +1,8 @@
 package com.aurora.domain;
 
+import com.aurora.domain.base.CommentType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.Date;
 
 public class Comment {
@@ -11,13 +14,25 @@ public class Comment {
 
     private String content;
 
-    private String toUserId;
+    private Integer toCommentId;
 
     private String commentType;
 
     private Date createdTime;
 
+    @JsonIgnore
     private Boolean deleted;
+
+    public Comment(){}
+
+    public Comment(String fromUserId, Integer momentId, String content, Integer toCommentId, CommentType commentType, Date createdTime) {
+        this.fromUserId = fromUserId;
+        this.momentId = momentId;
+        this.content = content;
+        this.toCommentId = toCommentId;
+        this.commentType = commentType.getType();
+        this.createdTime = createdTime;
+    }
 
     public Integer getId() {
         return id;
@@ -51,20 +66,20 @@ public class Comment {
         this.content = content == null ? null : content.trim();
     }
 
-    public String getToUserId() {
-        return toUserId;
+    public Integer getToCommentId() {
+        return toCommentId;
     }
 
-    public void setToUserId(String toUserId) {
-        this.toUserId = toUserId == null ? null : toUserId.trim();
+    public void setToCommentId(Integer toCommentId) {
+        this.toCommentId = toCommentId;
     }
 
     public String getCommentType() {
         return commentType;
     }
 
-    public void setCommentType(String commentType) {
-        this.commentType = commentType == null ? null : commentType.trim();
+    public void setCommentType(CommentType commentType) {
+        this.commentType = commentType.getType();
     }
 
     public Date getCreatedTime() {

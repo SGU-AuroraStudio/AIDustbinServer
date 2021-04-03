@@ -26,13 +26,13 @@ public class MomentImageServiceImpl implements IMomentImageService {
         criteria.andMomentIdEqualTo(momentId);
         criteria.andImageNoEqualTo(imageNo);
         List<MomentImage> momentImages = momentImageMapper.selectByExampleWithBLOBs(example);
-        if(momentImages.size()==0)
+        if (momentImages.size() == 0)
             return null;
         return momentImages.get(0);
     }
 
     @Override
     public boolean insert(MomentImage momentImage) {
-        return momentImageMapper.insert(momentImage)>0;
+        return momentImageMapper.insert(momentImage) > 0;
     }
 }

@@ -1,18 +1,15 @@
 package com.aurora.controller;
 
 import com.aurora.domain.MomentImage;
-import com.aurora.domain.base.ResponseJSON;
 import com.aurora.service.impl.MomentImageServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Map;
 
 /**
  * @Author Yao
@@ -29,7 +26,7 @@ public class MomentImageController {
     @GetMapping("/{momentId}/{imageNo}")
     public void getImages(HttpServletResponse response, @PathVariable Integer momentId, @PathVariable Integer imageNo) throws IOException {
         MomentImage momentImage = momentImageService.selectByMomentIdAndImageNo(momentId, imageNo);
-        if(momentImage!=null && momentImage.getImage()!=null && momentImage.getImage().length>10)
+        if (momentImage != null && momentImage.getImage() != null && momentImage.getImage().length > 10)
             response.getOutputStream().write(momentImage.getImage());
         else {
             response.setContentType("application/json;charset=UTF-8");

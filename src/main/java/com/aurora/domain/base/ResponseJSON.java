@@ -18,12 +18,15 @@ public enum ResponseJSON {
     USER_UPDATE_SUCCESS_BUT_PROFILE_ERROR(400,"用户信息修改成功，但是头像上传失败"),
     CHOOSE_WRONG(400, "选择错误"),
     CHOOSE_NOT_FOUND(400,"未知选项"),
+    MAX_SIZE_ERROR(400, "文件大小超过限制"),
+    MAX_FILE_COUNT_ERROR(400, "文件数量超过限制"),
+    COMMENT_NOT_FOUNT(400, "评论不存在"),
     NOT_FOUND_ERROR_404(404, "资源不存在"),
     UNKNOWN_ERROR(499,"未知错误"),
     SERVER_ERROR_500(500, "服务器错误");
 
-    private final Integer code;
-    private final String msg;
+    private Integer code;
+    private String msg;
 
     ResponseJSON(Integer code, String msg) {
         this.code = code;
@@ -35,6 +38,14 @@ public enum ResponseJSON {
 
     public String getMsg() {
         return msg;
+    }
+
+    public void setCode(Integer code) {
+        this.code = code;
+    }
+
+    public void setMsg(String msg) {
+        this.msg = msg;
     }
 
     public Map<String, Object> getJSON(){

@@ -4,8 +4,6 @@ import com.aurora.dao.MomentImageMapper;
 import com.aurora.dao.MomentMapper;
 import com.aurora.domain.Moment;
 import com.aurora.domain.MomentExample;
-import com.aurora.domain.MomentImage;
-import com.aurora.domain.MomentImageExample;
 import com.aurora.service.IMomentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,7 +24,7 @@ public class MomentServiceImpl implements IMomentService {
 
     @Override
     public boolean insert(Moment moment) {
-        return momentMapper.insertSelective(moment)>0;
+        return momentMapper.insertSelective(moment) > 0;
     }
 
     @Override
@@ -46,11 +44,11 @@ public class MomentServiceImpl implements IMomentService {
 
     @Override
     public boolean deleteById(Integer id) {
-        return momentMapper.deleteByPrimaryKey(id)>0;
+        return momentMapper.deleteByPrimaryKey(id) > 0;
     }
 
     @Override
     public boolean updateByIdSelective(Moment moment) {
-        return momentMapper.updateByPrimaryKeySelective(moment)>0;
+        return momentMapper.updateByPrimaryKeySelective(moment) > 0;
     }
 }

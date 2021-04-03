@@ -26,4 +26,10 @@ public class ErrorController {
     Map<String, Object> page500() {
         return ResponseJSON.SERVER_ERROR_500.getJSON();
     }
+
+    @RequestMapping("/maxSizeError")
+    @ResponseBody
+    Map<String, Object> maxSizeError() {
+        return ResponseJSON.MAX_SIZE_ERROR.getJSON();
+    }
 }

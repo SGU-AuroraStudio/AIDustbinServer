@@ -7,10 +7,9 @@ import com.aurora.service.impl.UserServiceImpl;
 import com.aurora.util.RandomNickName;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -78,7 +77,7 @@ public class UserController {
      * @param account  手机号或邮箱
      * @param password 密码
      */
-    @RequestMapping(value = "/register", method = {RequestMethod.POST})
+    @PostMapping("/register")
     @ResponseBody
     Map<String, Object> register(String id, String account, String password) {
         System.out.println("register...");
@@ -100,6 +99,13 @@ public class UserController {
     @ResponseBody
     Map<String, Object> update(HttpServletRequest request, User user, MultipartFile file) {
         System.out.println("update...");
+        //判断是不是图片
+        if (!file.getContentType().contains("image"))
+            return ResponseJSON.FAIL.getJSON();
+        //限制图片大小为5M
+        if (file.getSize() > 5 * 1024 * 1024)
+            return ResponseJSON.MAX_SIZE_ERROR.getJSON();
+
         //判断用户是否为session中的用户
         HttpSession session = request.getSession();
         User loginUser = (User) session.getAttribute(Constants.SESSION_USER);
@@ -146,7 +152,7 @@ public class UserController {
             return ResponseJSON.SUCCESS.getJSON(newUser);
         } else {
             //把上传的图片删掉
-            if (targetFile != null && targetFile.exists() && file!=null)
+            if (targetFile != null && targetFile.exists() && file != null)
                 targetFile.delete();
             return ResponseJSON.FAIL.getJSON();
         }

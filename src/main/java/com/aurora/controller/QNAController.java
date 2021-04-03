@@ -60,9 +60,9 @@ public class QNAController {
     @ResponseBody
     Map<String, Object> judge(HttpServletRequest request, Integer qId, String choose) {
         HttpSession session = request.getSession();
-        QNA qna = (QNA)session.getAttribute(Constants.SESSION_QNA);
+        QNA qna = (QNA) session.getAttribute(Constants.SESSION_QNA);
         //检查答题的题是否为获取到的题
-        if(qna.getId()!=qId)
+        if (qna.getId() != qId)
             return ResponseJSON.FAIL.getJSON();
         //检查选项是否存在
         WasteType chooseType = wasteTypeService.selectByName(choose);

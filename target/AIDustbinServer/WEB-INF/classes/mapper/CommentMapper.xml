@@ -6,7 +6,7 @@
     <result column="from_user_id" jdbcType="VARCHAR" property="fromUserId" />
     <result column="moment_id" jdbcType="INTEGER" property="momentId" />
     <result column="content" jdbcType="VARCHAR" property="content" />
-    <result column="to_user_id" jdbcType="VARCHAR" property="toUserId" />
+    <result column="to_comment_id" jdbcType="INTEGER" property="toCommentId" />
     <result column="comment_type" jdbcType="VARCHAR" property="commentType" />
     <result column="created_time" jdbcType="TIMESTAMP" property="createdTime" />
     <result column="deleted" jdbcType="BIT" property="deleted" />
@@ -41,14 +41,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, from_user_id, moment_id, content, to_user_id, comment_type, created_time, deleted
+    id, from_user_id, moment_id, content, to_comment_id, comment_type, created_time, 
+    deleted
   </sql>
   <select id="selectByExample" parameterType="com.aurora.domain.CommentExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
-    
+    'true' as QUERYID,
     <include refid="Base_Column_List" />
     from comment
     <if test="_parameter != null">
@@ -68,15 +69,15 @@
     delete from comment
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.aurora.domain.Comment">
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.aurora.domain.Comment">
     insert into comment (id, from_user_id, moment_id, 
-      content, to_user_id, comment_type, 
+      content, to_comment_id, comment_type, 
       created_time, deleted)
     values (#{id,jdbcType=INTEGER}, #{fromUserId,jdbcType=VARCHAR}, #{momentId,jdbcType=INTEGER}, 
-      #{content,jdbcType=VARCHAR}, #{toUserId,jdbcType=VARCHAR}, #{commentType,jdbcType=VARCHAR}, 
+      #{content,jdbcType=VARCHAR}, #{toCommentId,jdbcType=INTEGER}, #{commentType,jdbcType=VARCHAR}, 
       #{createdTime,jdbcType=TIMESTAMP}, #{deleted,jdbcType=BIT})
   </insert>
-  <insert id="insertSelective" parameterType="com.aurora.domain.Comment">
+  <insert id="insertSelective" useGeneratedKeys="true" keyProperty="id" parameterType="com.aurora.domain.Comment">
     insert into comment
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -91,8 +92,8 @@
       <if test="content != null">
         content,
       </if>
-      <if test="toUserId != null">
-        to_user_id,
+      <if test="toCommentId != null">
+        to_comment_id,
       </if>
       <if test="commentType != null">
         comment_type,
@@ -117,8 +118,8 @@
       <if test="content != null">
         #{content,jdbcType=VARCHAR},
       </if>
-      <if test="toUserId != null">
-        #{toUserId,jdbcType=VARCHAR},
+      <if test="toCommentId != null">
+        #{toCommentId,jdbcType=INTEGER},
       </if>
       <if test="commentType != null">
         #{commentType,jdbcType=VARCHAR},
@@ -143,8 +144,8 @@
       <if test="content != null">
         content = #{content,jdbcType=VARCHAR},
       </if>
-      <if test="toUserId != null">
-        to_user_id = #{toUserId,jdbcType=VARCHAR},
+      <if test="toCommentId != null">
+        to_comment_id = #{toCommentId,jdbcType=INTEGER},
       </if>
       <if test="commentType != null">
         comment_type = #{commentType,jdbcType=VARCHAR},
@@ -163,10 +164,23 @@
     set from_user_id = #{fromUserId,jdbcType=VARCHAR},
       moment_id = #{momentId,jdbcType=INTEGER},
       content = #{content,jdbcType=VARCHAR},
-      to_user_id = #{toUserId,jdbcType=VARCHAR},
+      to_comment_id = #{toCommentId,jdbcType=INTEGER},
       comment_type = #{commentType,jdbcType=VARCHAR},
       created_time = #{createdTime,jdbcType=TIMESTAMP},
       deleted = #{deleted,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateThisAndSonDeletedToTrue" parameterType="java.lang.Integer">
+    UPDATE COMMENT SET `deleted`=1
+    WHERE id IN
+          (
+            SELECT id
+            FROM (
+                   SELECT t1.id, IF(FIND_IN_SET(to_comment_id, @pids) > 0, @pids := CONCAT(@pids, ',', id), 0) AS ischild
+                   FROM (SELECT id,to_comment_id FROM `comment` AS t) AS t1,
+                        (SELECT @pids := #{id}, @pid:=@pids) AS t2
+                 ) AS t3
+            WHERE ischild != 0 OR id=@pid
+          )
   </update>
 </mapper>
