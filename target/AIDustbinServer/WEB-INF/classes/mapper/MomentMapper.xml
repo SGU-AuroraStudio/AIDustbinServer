@@ -169,4 +169,7 @@
       deleted = #{deleted,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <update id="updateUserByUserId" parameterType="com.aurora.domain.Moment">
+    update moment set user_nickname=#{userNickname},user_profile=#{userProfile} where user_id=#{userId}
+  </update>
 </mapper>

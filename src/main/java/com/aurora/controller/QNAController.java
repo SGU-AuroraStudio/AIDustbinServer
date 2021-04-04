@@ -34,7 +34,7 @@ public class QNAController {
     @Autowired
     QNARecordServiceImpl qnaRecordService;
 
-    //TODO:需要修改成获取N道题，一道一道选可能会重复
+    //TODO:需要修改成一次获取N道题，一道一道选可能会重复
 
     /**
      * 随机获取题目

@@ -1,8 +1,12 @@
 package com.aurora.controller;
 
+import com.aurora.domain.Comment;
+import com.aurora.domain.Moment;
 import com.aurora.domain.User;
 import com.aurora.domain.base.Constants;
 import com.aurora.domain.base.ResponseJSON;
+import com.aurora.service.impl.CommentServiceImpl;
+import com.aurora.service.impl.MomentServiceImpl;
 import com.aurora.service.impl.UserServiceImpl;
 import com.aurora.util.RandomNickName;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +37,10 @@ public class UserController {
 
     @Autowired
     UserServiceImpl userService;
+    @Autowired
+    MomentServiceImpl momentService;
+    @Autowired
+    CommentServiceImpl commentService;
 
     /**
      * 登录前判断页面
@@ -146,6 +154,18 @@ public class UserController {
             //更新session里的用户信息并返回JSON
             User newUser = userService.selectById(user.getId());
             session.setAttribute(Constants.SESSION_USER, newUser);
+            //更新Moment和Comment里响应的发表者信息
+            Moment moment = new Moment();
+            moment.setUserId(newUser.getId());
+            moment.setUserNickname(newUser.getNickname());
+            moment.setUserProfile(newUser.getProfile());
+            momentService.updateUserByUserId(moment);
+            Comment comment = new Comment();
+            comment.setFromUserId(newUser.getId());
+            comment.setFromUserNickname(newUser.getNickname());
+            comment.setFromUserProfile(newUser.getProfile());
+            commentService.updateFromUserByUserId(comment);
+
             if (file != null && !fileSaveSuccess)
                 return ResponseJSON.USER_UPDATE_SUCCESS_BUT_PROFILE_ERROR.getJSON(newUser);
             return ResponseJSON.SUCCESS.getJSON(newUser);

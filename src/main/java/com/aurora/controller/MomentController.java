@@ -54,7 +54,7 @@ public class MomentController {
         return ResponseJSON.SUCCESS.getJSON(moments);
     }
 
-    @PostMapping("delete")
+    @PostMapping("/delete")
     @ResponseBody
     public Map<String, Object> deleteMoment(HttpServletRequest request, Integer id) {
         User user = (User) request.getSession().getAttribute(Constants.SESSION_USER);
@@ -71,7 +71,7 @@ public class MomentController {
     @PostMapping
     @ResponseBody
     public Map<String, Object> addMoment(HttpServletRequest request, @RequestParam(value = "content") String content, MultipartFile[] images) throws IOException {
-        if (images.length > 9)
+        if (images != null && images.length > 9)
             return ResponseJSON.MAX_FILE_COUNT_ERROR.getJSON();
         //插入动态内容
         User user = (User) request.getSession().getAttribute(Constants.SESSION_USER);
@@ -85,8 +85,8 @@ public class MomentController {
         //插入图片
         if (images != null && images.length > 0) {
             for (MultipartFile image : images) {
-                if (image.getSize() < 10)
-                    continue;
+                //文件这么小，肯定不是图片(10B)
+                if (image.getSize() < 10) continue;
                 MomentImage momentImage = new MomentImage(null, ++no, moment.getId(), new Date(), image.getBytes());
                 if (!momentImageService.insert(momentImage))
                     return ResponseJSON.FAIL.getJSON();

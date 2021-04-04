@@ -28,6 +28,21 @@ public class MomentServiceImpl implements IMomentService {
     }
 
     @Override
+    public boolean deleteById(Integer id) {
+        return momentMapper.deleteByPrimaryKey(id) > 0;
+    }
+
+    @Override
+    public boolean updateByIdSelective(Moment moment) {
+        return momentMapper.updateByPrimaryKeySelective(moment) > 0;
+    }
+
+    @Override
+    public boolean updateUserByUserId(Moment moment) {
+        return momentMapper.updateUserByUserId(moment) > 0;
+    }
+
+    @Override
     public Moment selectById(Integer id) {
         return momentMapper.selectByPrimaryKey(id);
     }
@@ -40,15 +55,5 @@ public class MomentServiceImpl implements IMomentService {
         criteria.andDeletedEqualTo(false);
         List<Moment> moments = momentMapper.selectByExample(example);
         return moments;
-    }
-
-    @Override
-    public boolean deleteById(Integer id) {
-        return momentMapper.deleteByPrimaryKey(id) > 0;
-    }
-
-    @Override
-    public boolean updateByIdSelective(Moment moment) {
-        return momentMapper.updateByPrimaryKeySelective(moment) > 0;
     }
 }

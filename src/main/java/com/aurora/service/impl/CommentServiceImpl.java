@@ -36,6 +36,11 @@ public class CommentServiceImpl implements ICommentService {
     }
 
     @Override
+    public boolean updateFromUserByUserId(Comment comment) {
+        return commentMapper.updateFromUserByUserId(comment) > 0;
+    }
+
+    @Override
     public Comment selectById(Integer id) {
         return commentMapper.selectByPrimaryKey(id);
     }

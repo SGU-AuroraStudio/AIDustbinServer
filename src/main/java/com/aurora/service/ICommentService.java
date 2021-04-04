@@ -14,6 +14,8 @@ public interface ICommentService {
 
     boolean deleteThisAndSonById(Integer id);
 
+    boolean updateFromUserByUserId(Comment comment);
+
     Comment selectById(Integer id);
 
     List<Comment> selectByMomentId(Integer momentId);

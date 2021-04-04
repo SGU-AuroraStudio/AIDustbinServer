@@ -12,11 +12,13 @@ import java.util.List;
 public interface IMomentService {
     boolean insert(Moment moment);
 
-    Moment selectById(Integer id);
-
-    List<Moment> selectAll();
-
     boolean deleteById(Integer id);
 
     boolean updateByIdSelective(Moment moment);
+
+    boolean updateUserByUserId(Moment moment);
+
+    Moment selectById(Integer id);
+
+    List<Moment> selectAll();
 }

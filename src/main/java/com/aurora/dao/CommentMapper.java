@@ -21,4 +21,6 @@ public interface CommentMapper {
     int updateByPrimaryKey(Comment record);
 
     int updateThisAndSonDeletedToTrue(Integer id);
+
+    int updateFromUserByUserId(Comment comment);
 }

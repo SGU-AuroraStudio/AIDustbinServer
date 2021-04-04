@@ -19,4 +19,6 @@ public interface MomentMapper {
     int updateByPrimaryKeySelective(Moment record);
 
     int updateByPrimaryKey(Moment record);
+
+    int updateUserByUserId(Moment record);
 }
