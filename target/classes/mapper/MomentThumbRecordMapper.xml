@@ -40,6 +40,9 @@
   <sql id="Base_Column_List">
     id, user_id, moment_id, created_time, deleted
   </sql>
+  <select id="selectCountByMomentId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+    SELECT COUNT(*) FROM moment_thumb_record WHERE deleted=0 AND moment_id=#{momentId};
+  </select>
   <select id="selectByExample" parameterType="com.aurora.domain.MomentThumbRecordExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
@@ -133,5 +136,8 @@
       created_time = #{createdTime,jdbcType=TIMESTAMP},
       deleted = #{deleted,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateDeletedReverseByUserIdAndMomentId" parameterType="java.lang.Integer">
+    update moment_thumb_record set `deleted`=1-`deleted`,updated_time=now() where id=#{id};
   </update>
 </mapper>

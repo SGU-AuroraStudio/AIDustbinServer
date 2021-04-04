@@ -21,7 +21,7 @@ public class QNARecordServiceImpl implements IQNARecordService {
     QNARecordMapper qnaRecordMapper;
 
     @Override
-    public boolean insertOne(QNARecord qnaRecord) {
+    public boolean insert(QNARecord qnaRecord) {
         return qnaRecordMapper.insert(qnaRecord) > 0;
     }
 

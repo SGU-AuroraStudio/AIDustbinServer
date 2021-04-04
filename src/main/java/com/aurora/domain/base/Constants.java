@@ -11,5 +11,4 @@ public class Constants {
 //    public final static String SERVER_BASE_HTTP_URL = "http://47.107.77.200:8080/dustbin";
 //    public final static String LOCAL_PROFILE_BASE_PATH = "/root/dustbin/profile";
 
-
 }

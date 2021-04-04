@@ -3,11 +3,16 @@ package com.aurora.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.Date;
+import java.util.List;
 
 public class Moment {
     private Integer id;
 
     private String userId;
+
+    private String userNickname;
+
+    private String userProfile;
 
     private String content;
 
@@ -15,10 +20,17 @@ public class Moment {
 
     private Date createdTime;
 
+    private Integer thumbCount;
+
+    private boolean thumbed;
+
+    private List<Comment> comments;
+
     @JsonIgnore
     private Boolean deleted;
 
-    public Moment() { }
+    public Moment() {
+    }
 
     public Moment(String userId, String content, Integer imageCount, Date createdTime) {
         this.userId = userId;
@@ -33,6 +45,22 @@ public class Moment {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getUserNickname() {
+        return userNickname;
+    }
+
+    public void setUserNickname(String userNickname) {
+        this.userNickname = userNickname;
+    }
+
+    public String getUserProfile() {
+        return userProfile;
+    }
+
+    public void setUserProfile(String userProfile) {
+        this.userProfile = userProfile;
     }
 
     public String getUserId() {
@@ -65,6 +93,30 @@ public class Moment {
 
     public void setCreatedTime(Date createdTime) {
         this.createdTime = createdTime;
+    }
+
+    public Integer getThumbCount() {
+        return thumbCount;
+    }
+
+    public void setThumbCount(Integer thumbCount) {
+        this.thumbCount = thumbCount;
+    }
+
+    public boolean isThumbed() {
+        return thumbed;
+    }
+
+    public void setThumbed(boolean thumbed) {
+        this.thumbed = thumbed;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
     }
 
     public Boolean getDeleted() {

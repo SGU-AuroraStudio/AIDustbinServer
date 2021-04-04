@@ -2,6 +2,7 @@ package com.aurora.dao;
 
 import com.aurora.domain.Moment;
 import com.aurora.domain.MomentExample;
+
 import java.util.List;
 
 public interface MomentMapper {

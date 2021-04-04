@@ -2,6 +2,7 @@ package com.aurora.dao;
 
 import com.aurora.domain.MomentThumbRecord;
 import com.aurora.domain.MomentThumbRecordExample;
+
 import java.util.List;
 
 public interface MomentThumbRecordMapper {
@@ -11,6 +12,8 @@ public interface MomentThumbRecordMapper {
 
     int insertSelective(MomentThumbRecord record);
 
+    int selectCountByMomentId(Integer momentId);
+
     List<MomentThumbRecord> selectByExample(MomentThumbRecordExample example);
 
     MomentThumbRecord selectByPrimaryKey(Integer id);
@@ -18,4 +21,6 @@ public interface MomentThumbRecordMapper {
     int updateByPrimaryKeySelective(MomentThumbRecord record);
 
     int updateByPrimaryKey(MomentThumbRecord record);
+
+    int updateDeletedReverseByUserIdAndMomentId(Integer id);
 }

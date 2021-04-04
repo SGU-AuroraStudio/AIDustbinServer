@@ -77,14 +77,14 @@ public class QNAController {
             qnaService.updateQNARightAddOneById(qId);
             //插入选择记录
             QNARecord qnaRecord = new QNARecord(user.getId(), qId, chooseType.getId(), true, new Date());
-            qnaRecordService.insertOne(qnaRecord);
+            qnaRecordService.insert(qnaRecord);
             return ResponseJSON.CHOOSE_RIGHT.getJSON();
         } else {
             //选择错误就使数据库wrong记录+1
             qnaService.updateQNAWrongAddOneById(qId);
             //插入选择记录
             QNARecord qnaRecord = new QNARecord(user.getId(), qId, chooseType.getId(), false, new Date());
-            qnaRecordService.insertOne(qnaRecord);
+            qnaRecordService.insert(qnaRecord);
             return ResponseJSON.CHOOSE_WRONG.getJSON();
         }
     }

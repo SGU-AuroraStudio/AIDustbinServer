@@ -4,6 +4,8 @@
   <resultMap id="BaseResultMap" type="com.aurora.domain.Moment">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="user_nickname" jdbcType="VARCHAR" property="userNickname" />
+    <result column="user_profile" jdbcType="VARCHAR" property="userProfile" />
     <result column="content" jdbcType="VARCHAR" property="content" />
     <result column="image_count" jdbcType="TINYINT" property="imageCount" />
     <result column="created_time" jdbcType="TIMESTAMP" property="createdTime" />
@@ -39,7 +41,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, user_id, content, image_count, created_time, deleted
+    id, user_id, user_nickname, user_profile, content, image_count, created_time, deleted
   </sql>
   <select id="selectByExample" parameterType="com.aurora.domain.MomentExample" resultMap="BaseResultMap">
     select
@@ -67,10 +69,10 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.aurora.domain.Moment">
-    insert into moment (id, user_id, content, 
+    insert into moment (id, user_id, user_nickname, user_profile, content,
       image_count, created_time, deleted
       )
-    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=VARCHAR}, #{userNickname,jdbcType=VARCHAR}, #{userProfile,jdbcType=VARCHAR},#{content,jdbcType=VARCHAR},
       #{imageCount,jdbcType=TINYINT}, #{createdTime,jdbcType=TIMESTAMP}, #{deleted,jdbcType=BIT}
       )
   </insert>
@@ -82,6 +84,12 @@
       </if>
       <if test="userId != null">
         user_id,
+      </if>
+      <if test="userNickname != null">
+        user_nickname,
+      </if>
+      <if test="userProfile != null">
+        user_profile,
       </if>
       <if test="content != null">
         content,
@@ -103,6 +111,12 @@
       <if test="userId != null">
         #{userId,jdbcType=VARCHAR},
       </if>
+      <if test="userNickname != null">
+        #{userNickname,jdbcType=VARCHAR},
+      </if>
+      <if test="userProfile != null">
+        #{userProfile,jdbcType=VARCHAR},
+      </if>
       <if test="content != null">
         #{content,jdbcType=VARCHAR},
       </if>
@@ -123,6 +137,12 @@
       <if test="userId != null">
         user_id = #{userId,jdbcType=VARCHAR},
       </if>
+      <if test="userNickname != null">
+        user_nickname = #{userNickname,jdbcType=VARCHAR},
+      </if>
+      <if test="userProfile != null">
+        user_profile = #{userProfile,jdbcType=VARCHAR},
+      </if>
       <if test="content != null">
         content = #{content,jdbcType=VARCHAR},
       </if>
@@ -141,6 +161,8 @@
   <update id="updateByPrimaryKey" parameterType="com.aurora.domain.Moment">
     update moment
     set user_id = #{userId,jdbcType=VARCHAR},
+      user_nickname = #{userNickname,jdbcType=VARCHAR},
+      user_profile = #{userProfile,jdbcType=VARCHAR},
       content = #{content,jdbcType=VARCHAR},
       image_count = #{imageCount,jdbcType=TINYINT},
       created_time = #{createdTime,jdbcType=TIMESTAMP},

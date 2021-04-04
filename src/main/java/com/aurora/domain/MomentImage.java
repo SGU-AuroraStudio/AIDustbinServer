@@ -9,7 +9,9 @@ public class MomentImage extends MomentImageKey {
 
     private byte[] image;
 
-    public MomentImage() { super();}
+    public MomentImage() {
+        super();
+    }
 
     public MomentImage(Integer id, Integer imageNo, Integer momentId, Date createdTime, byte[] image) {
         super(id, imageNo);

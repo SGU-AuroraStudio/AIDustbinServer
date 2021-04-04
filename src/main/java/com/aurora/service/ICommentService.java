@@ -12,8 +12,6 @@ import java.util.List;
 public interface ICommentService {
     boolean insert(Comment comment);
 
-    boolean deleteById(Integer id);
-
     boolean deleteThisAndSonById(Integer id);
 
     Comment selectById(Integer id);

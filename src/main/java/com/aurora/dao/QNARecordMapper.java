@@ -3,6 +3,7 @@ package com.aurora.dao;
 import com.aurora.domain.QNARank;
 import com.aurora.domain.QNARecord;
 import com.aurora.domain.QNARecordExample;
+
 import java.util.List;
 
 public interface QNARecordMapper {

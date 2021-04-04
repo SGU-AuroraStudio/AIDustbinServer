@@ -75,7 +75,7 @@ public class UserServiceImpl implements IUserService {
         if (tempUser != null)
             return false;
         else {
-            int res = userMapper.insert(user);
+            int res = userMapper.insertSelective(user);
             return res > 0;
         }
     }

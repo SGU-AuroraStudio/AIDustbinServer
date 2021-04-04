@@ -159,6 +159,7 @@
       <if test="dateJoined != null">
         date_joined = #{dateJoined,jdbcType=TIMESTAMP},
       </if>
+        updated_time = now(),
       <if test="profile != null">
         profile = #{profile,jdbcType=VARCHAR},
       </if>
@@ -176,6 +177,7 @@
       status = #{status,jdbcType=VARCHAR},
       last_login = #{lastLogin,jdbcType=TIMESTAMP},
       date_joined = #{dateJoined,jdbcType=TIMESTAMP},
+      updated_time = now(),
       profile = #{profile,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -186,7 +188,8 @@
       nickname = #{nickname,jdbcType=VARCHAR},
       status = #{status,jdbcType=VARCHAR},
       last_login = #{lastLogin,jdbcType=TIMESTAMP},
-      date_joined = #{dateJoined,jdbcType=TIMESTAMP}
+      date_joined = #{dateJoined,jdbcType=TIMESTAMP},
+      updated_time = now()
     where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

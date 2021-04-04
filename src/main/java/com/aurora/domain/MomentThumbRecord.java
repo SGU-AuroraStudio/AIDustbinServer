@@ -13,6 +13,15 @@ public class MomentThumbRecord {
 
     private Boolean deleted;
 
+    public MomentThumbRecord() {
+    }
+
+    public MomentThumbRecord(String userId, Integer momentId, Date createdTime) {
+        this.userId = userId;
+        this.momentId = momentId;
+        this.createdTime = createdTime;
+    }
+
     public Integer getId() {
         return id;
     }

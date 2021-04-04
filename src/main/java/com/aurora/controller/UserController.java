@@ -99,22 +99,21 @@ public class UserController {
     @ResponseBody
     Map<String, Object> update(HttpServletRequest request, User user, MultipartFile file) {
         System.out.println("update...");
-        //判断是不是图片
-        if (!file.getContentType().contains("image"))
-            return ResponseJSON.FAIL.getJSON();
-        //限制图片大小为5M
-        if (file.getSize() > 5 * 1024 * 1024)
-            return ResponseJSON.MAX_SIZE_ERROR.getJSON();
-
         //判断用户是否为session中的用户
         HttpSession session = request.getSession();
         User loginUser = (User) session.getAttribute(Constants.SESSION_USER);
-        if (!user.getId().equals(loginUser.getId()))
+        if (!loginUser.getId().equals(user.getId()))
             return ResponseJSON.FAIL.getJSON();
         File targetFile = null;
         boolean fileSaveSuccess = false;
         //尝试保存图片
         if (file != null) {
+            //判断是不是图片
+            if (!file.getContentType().contains("image"))
+                return ResponseJSON.FAIL.getJSON();
+            //限制图片大小为5M
+            if (file.getSize() > 5 * 1024 * 1024)
+                return ResponseJSON.MAX_SIZE_ERROR.getJSON();
             //文件夹路径
             String folderPath = Constants.LOCAL_PROFILE_BASE_PATH;
             //----设置文件名----
@@ -151,7 +150,7 @@ public class UserController {
                 return ResponseJSON.USER_UPDATE_SUCCESS_BUT_PROFILE_ERROR.getJSON(newUser);
             return ResponseJSON.SUCCESS.getJSON(newUser);
         } else {
-            //把上传的图片删掉
+            //上传数据库失败，把保存的图片删掉
             if (targetFile != null && targetFile.exists() && file != null)
                 targetFile.delete();
             return ResponseJSON.FAIL.getJSON();

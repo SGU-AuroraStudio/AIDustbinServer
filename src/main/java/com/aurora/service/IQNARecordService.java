@@ -11,7 +11,7 @@ import java.util.List;
  * @Description
  */
 public interface IQNARecordService {
-    boolean insertOne(QNARecord qnaRecord);
+    boolean insert(QNARecord qnaRecord);
 
     List<QNARank> selectQNARank();
 }

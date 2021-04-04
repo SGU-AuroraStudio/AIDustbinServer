@@ -31,21 +31,6 @@ public class CommentServiceImpl implements ICommentService {
      * @return true/false
      */
     @Override
-    public boolean deleteById(Integer id) {
-
-        CommentExample example = new CommentExample();
-        CommentExample.Criteria criteria = example.createCriteria();
-        criteria.andIdEqualTo(id);
-        criteria.andDeletedEqualTo(false);
-        List<Comment> list = commentMapper.selectByExample(example);
-
-        if (list.size() == 0)
-            return false;
-
-        return false;
-    }
-
-    @Override
     public boolean deleteThisAndSonById(Integer id) {
         return commentMapper.updateThisAndSonDeletedToTrue(id) > 0;
     }

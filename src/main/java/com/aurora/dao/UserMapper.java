@@ -2,7 +2,6 @@ package com.aurora.dao;
 
 import com.aurora.domain.User;
 import com.aurora.domain.UserExample;
-import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 

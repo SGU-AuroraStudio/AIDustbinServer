@@ -4,6 +4,8 @@
   <resultMap id="BaseResultMap" type="com.aurora.domain.Comment">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="from_user_id" jdbcType="VARCHAR" property="fromUserId" />
+    <result column="from_user_nickname" jdbcType="VARCHAR" property="fromUserNickname" />
+    <result column="from_user_profile" jdbcType="VARCHAR" property="fromUserProfile" />
     <result column="moment_id" jdbcType="INTEGER" property="momentId" />
     <result column="content" jdbcType="VARCHAR" property="content" />
     <result column="to_comment_id" jdbcType="INTEGER" property="toCommentId" />
@@ -41,7 +43,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, from_user_id, moment_id, content, to_comment_id, comment_type, created_time, 
+    id, from_user_id, from_user_nickname, from_user_profile, moment_id, content, to_comment_id, comment_type, created_time,
     deleted
   </sql>
   <select id="selectByExample" parameterType="com.aurora.domain.CommentExample" resultMap="BaseResultMap">
@@ -70,10 +72,10 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.aurora.domain.Comment">
-    insert into comment (id, from_user_id, moment_id, 
+    insert into comment (id, from_user_id, from_user_nickname, from_user_profile, moment_id,
       content, to_comment_id, comment_type, 
       created_time, deleted)
-    values (#{id,jdbcType=INTEGER}, #{fromUserId,jdbcType=VARCHAR}, #{momentId,jdbcType=INTEGER}, 
+    values (#{id,jdbcType=INTEGER}, #{fromUserId,jdbcType=VARCHAR}, #{fromUserNickname,jdbcType=VARCHAR}, #{fromUserProfile,jdbcType=VARCHAR}, #{momentId,jdbcType=INTEGER},
       #{content,jdbcType=VARCHAR}, #{toCommentId,jdbcType=INTEGER}, #{commentType,jdbcType=VARCHAR}, 
       #{createdTime,jdbcType=TIMESTAMP}, #{deleted,jdbcType=BIT})
   </insert>
@@ -85,6 +87,12 @@
       </if>
       <if test="fromUserId != null">
         from_user_id,
+      </if>
+      <if test="fromUserNickname != null">
+        from_user_nickname,
+      </if>
+      <if test="fromUserProfile != null">
+        from_user_profile,
       </if>
       <if test="momentId != null">
         moment_id,
@@ -112,6 +120,12 @@
       <if test="fromUserId != null">
         #{fromUserId,jdbcType=VARCHAR},
       </if>
+      <if test="fromUserNickname != null">
+        #{fromUserNickname,jdbcType=VARCHAR},
+      </if>
+      <if test="fromUserProfile != null">
+        #{fromUserProfile,jdbcType=VARCHAR},
+      </if>
       <if test="momentId != null">
         #{momentId,jdbcType=INTEGER},
       </if>
@@ -138,6 +152,12 @@
       <if test="fromUserId != null">
         from_user_id = #{fromUserId,jdbcType=VARCHAR},
       </if>
+      <if test="fromUserNickname != null">
+        from_user_nickname = #{fromUserNickname,jdbcType=VARCHAR},
+      </if>
+      <if test="fromUserProfile != null">
+        from_user_profile = #{fromUserProfile,jdbcType=VARCHAR},
+      </if>
       <if test="momentId != null">
         moment_id = #{momentId,jdbcType=INTEGER},
       </if>
@@ -162,6 +182,8 @@
   <update id="updateByPrimaryKey" parameterType="com.aurora.domain.Comment">
     update comment
     set from_user_id = #{fromUserId,jdbcType=VARCHAR},
+      from_user_nickname = #{fromUserNickname,jdbcType=VARCHAR},
+      from_user_profile = #{fromUserProfile,jdbcType=VARCHAR},
       moment_id = #{momentId,jdbcType=INTEGER},
       content = #{content,jdbcType=VARCHAR},
       to_comment_id = #{toCommentId,jdbcType=INTEGER},

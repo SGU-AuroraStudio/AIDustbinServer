@@ -5,7 +5,8 @@ public class MomentImageKey {
 
     private Integer imageNo;
 
-    public MomentImageKey() { }
+    public MomentImageKey() {
+    }
 
     public MomentImageKey(Integer id, Integer imageNo) {
         this.id = id;

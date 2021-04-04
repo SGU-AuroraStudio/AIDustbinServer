@@ -10,6 +10,10 @@ public class Comment {
 
     private String fromUserId;
 
+    private String fromUserNickname;
+
+    private String fromUserProfile;
+
     private Integer momentId;
 
     private String content;
@@ -23,7 +27,8 @@ public class Comment {
     @JsonIgnore
     private Boolean deleted;
 
-    public Comment(){}
+    public Comment() {
+    }
 
     public Comment(String fromUserId, Integer momentId, String content, Integer toCommentId, CommentType commentType, Date createdTime) {
         this.fromUserId = fromUserId;
@@ -48,6 +53,22 @@ public class Comment {
 
     public void setFromUserId(String fromUserId) {
         this.fromUserId = fromUserId == null ? null : fromUserId.trim();
+    }
+
+    public String getFromUserNickname() {
+        return fromUserNickname;
+    }
+
+    public void setFromUserNickname(String fromUserNickname) {
+        this.fromUserNickname = fromUserNickname;
+    }
+
+    public String getFromUserProfile() {
+        return fromUserProfile;
+    }
+
+    public void setFromUserProfile(String fromUserProfile) {
+        this.fromUserProfile = fromUserProfile;
     }
 
     public Integer getMomentId() {

@@ -32,7 +32,7 @@ public class CommentController {
 
     @GetMapping
     @ResponseBody
-    public Map<String, Object> getComment(Integer momentId) {
+    public Map<String, Object> getComments(Integer momentId) {
         List<Comment> comments = commentService.selectByMomentId(momentId);
         if (comments.size() == 0)
             return ResponseJSON.FAIL.getJSON();
@@ -63,15 +63,17 @@ public class CommentController {
         Comment comment;
         //评论分为comment和reply
         //目标评论Id为空，说明是评论动态的，类型为comment
-        if (toCommentId == null)
+        if (toCommentId == null) {
             comment = new Comment(user.getId(), momentId, content, null, CommentType.comment, new Date());
-        else {
+        } else {
             //判断目标评论是否存在，类型为reply
             Comment comment1 = commentService.selectByIdAndMomentId(toCommentId, momentId);
             if (comment1 == null)
                 return ResponseJSON.COMMENT_NOT_FOUNT.getJSON();
             comment = new Comment(user.getId(), momentId, content, toCommentId, CommentType.reply, new Date());
         }
+        comment.setFromUserNickname(user.getNickname());
+        comment.setFromUserProfile(user.getProfile());
         //插入，在xml里需要设置useGeneratedKeys="true" keyProperty="id"获取自增的id，否者为null
         if (commentService.insert(comment))
             return ResponseJSON.SUCCESS.getJSON(comment);
