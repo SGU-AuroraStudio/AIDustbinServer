@@ -46,7 +46,7 @@ public class QNAController {
     Map<String, Object> getRandomQNA(HttpServletRequest request) {
         QNA qna = qnaService.getRandomQNA();
         request.getSession().setAttribute(Constants.SESSION_QNA, qna);
-        return ResponseJSON.SUCCESS.getJSON();
+        return ResponseJSON.SUCCESS.getJSON(qna);
     }
 
     /**
