@@ -29,10 +29,11 @@
         <!--设置上传文件最大尺寸，单位为B-->
         <property name="maxUploadSizePerFile" value="10240000"/>
     </bean>
-
+    <!--异常处理-->
     <bean id="exceptionResolver" class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
         <property name="exceptionMappings">
             <props>
+                <!--文件太大异常-->
                 <prop key="org.springframework.web.multipart.MaxUploadSizeExceededException">/maxSizeError</prop>
             </props>
         </property>

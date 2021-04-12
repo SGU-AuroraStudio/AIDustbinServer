@@ -19,7 +19,7 @@ public class SessionInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         //因为这里只能返回true或false，所以跳转到login，让login返回没登录的信息。也因此不能拦截login页面
-        if(request.getSession().getAttribute(Constants.SESSION_KEY)==null) {
+        if(request.getSession().getAttribute(Constants.SESSION_USER)==null) {
             request.getRequestDispatcher("/user/login").forward(request, response);
             return false;
         }else {

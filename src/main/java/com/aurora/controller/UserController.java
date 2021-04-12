@@ -43,7 +43,7 @@ public class UserController {
     CommentServiceImpl commentService;
 
     /**
-     * 登录前判断页面
+     * 登录前判断页面，检查有没有登录
      */
     @RequestMapping(value = "/login")
     @ResponseBody
@@ -102,11 +102,15 @@ public class UserController {
 
     /**
      * 更新用户数据，注意：id一定要有，其它随意
+     * MultipartFile需要在spring-mvc.xml配置解析器
      */
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     @ResponseBody
     Map<String, Object> update(HttpServletRequest request, User user, MultipartFile file) {
         System.out.println("update...");
+        //判断是不是图片
+        if (file==null || !file.getContentType().contains("image"))
+            return ResponseJSON.FAIL.getJSON();
         //判断用户是否为session中的用户
         HttpSession session = request.getSession();
         User loginUser = (User) session.getAttribute(Constants.SESSION_USER);
@@ -114,41 +118,36 @@ public class UserController {
             return ResponseJSON.FAIL.getJSON();
         File targetFile = null;
         boolean fileSaveSuccess = false;
+
         //尝试保存图片
-        if (file != null) {
-            //判断是不是图片
-            if (!file.getContentType().contains("image"))
-                return ResponseJSON.FAIL.getJSON();
-            //限制图片大小为5M
-            if (file.getSize() > 5 * 1024 * 1024)
-                return ResponseJSON.MAX_SIZE_ERROR.getJSON();
-            //文件夹路径
-            String folderPath = Constants.LOCAL_PROFILE_BASE_PATH;
-            //----设置文件名----
-            //格式化日期
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
-            //文件名，例：userId_2021-03-29 11：38：30_阿巴阿巴.jpg
-            String fileName = user.getId() + "_" + sdf.format(new Date()) + "_" + file.getOriginalFilename();
-            //win文件名不能有<>?:"/\|*
-            Pattern r = Pattern.compile("\\/.?\"<>|: "); //空格也一起匹配了
-            fileName = r.matcher(fileName).replaceAll("");
-            //----设置文件名----
-            File folder = new File(folderPath);
-            targetFile = new File(folderPath, fileName);
-            //检查文件夹是否存在
-            if (!folder.exists())
-                folder.mkdirs();
-            //保存文件，当前模式会覆盖旧文件
-            try {
-                file.transferTo(targetFile);
-                System.out.println(folderPath + fileName);
-                //设置用户图片url
-                user.setProfile(Constants.SERVER_BASE_HTTP_URL + "/profile/" + fileName);
-                fileSaveSuccess = true;
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        //限制图片大小为5M
+        if (file.getSize() > 5 * 1024 * 1024)
+            return ResponseJSON.MAX_SIZE_ERROR.getJSON();
+        //----设置文件名----
+        //格式化日期
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
+        //文件名，例：userId_2021-03-29 11：38：30_阿巴阿巴.jpg
+        String fileName = user.getId() + "_" + sdf.format(new Date()) + "_" + file.getOriginalFilename();
+        //win文件名不能有<>?:"/\|*
+        Pattern r = Pattern.compile("\\/.?\"<>|: "); //空格也一起匹配了
+        fileName = r.matcher(fileName).replaceAll("");
+        //----设置文件名----
+        File folder = new File(Constants.LOCAL_PROFILE_BASE_PATH);
+        targetFile = new File(Constants.LOCAL_PROFILE_BASE_PATH, fileName);
+        //检查文件夹是否存在
+        if (!folder.exists())
+            folder.mkdirs();
+        //保存文件，当前模式会覆盖旧文件
+        try {
+            file.transferTo(targetFile);
+            System.out.println(Constants.LOCAL_PROFILE_BASE_PATH + fileName);
+            //设置用户图片url
+            user.setProfile(Constants.SERVER_BASE_HTTP_URL + "/profile/" + fileName);
+            fileSaveSuccess = true;
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+
         //如果更新数据库成功
         if (userService.updateById(user)) {
             //更新session里的用户信息并返回JSON
@@ -177,6 +176,5 @@ public class UserController {
         }
 
     }
-
 
 }
