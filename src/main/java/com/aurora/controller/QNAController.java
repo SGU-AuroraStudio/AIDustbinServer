@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -98,6 +99,7 @@ public class QNAController {
     @ResponseBody
     Map<String, Object> getRankList() {
         List<QNARank> list = qnaRecordService.selectQNARank();
+        Map<String, Object> map = new HashMap<>();
         return ResponseJSON.SUCCESS.getJSON(list);
     }
 }

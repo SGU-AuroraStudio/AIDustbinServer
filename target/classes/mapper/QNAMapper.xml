@@ -40,6 +40,7 @@
   <sql id="Base_Column_List">
     id, Q, answer, `right`, wrong
   </sql>
+  <!--自己写的-->
   <select id="selectOneByRandom" resultMap="BaseResultMap">
     select * from qna order by rand() limit 1
   </select>
@@ -107,9 +108,11 @@
       </if>
     </trim>
   </insert>
+  <!--自己写的-->
   <update id="updateRightById">
     UPDATE qna SET `right` = `right`+ #{valueToAdd} WHERE id=#{id}
   </update>
+  <!--自己写的-->
   <update id="updateWrongById">
     UPDATE qna SET wrong = wrong + #{valueToAdd} WHERE id=#{id}
   </update>
