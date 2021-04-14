@@ -118,44 +118,43 @@ public class UserController {
         //判断是不是图片
         if (file!=null && !file.getContentType().contains("image"))
             return ResponseJSON.PARAM_ERROR.getJSON();
-        //判断用户是否为session中的用户
+        //给参数加上id，从session获取用户
         HttpSession session = request.getSession();
         User loginUser = (User) session.getAttribute(Constants.SESSION_USER);
         user.setId(loginUser.getId());
 
-        File targetFile;
+        File targetFile = null;
         boolean fileSaveSuccess = false;
         //尝试保存图片
-        //限制图片大小为5M
-        if (file.getSize() > 5 * 1024 * 1024)
-            return ResponseJSON.MAX_SIZE_ERROR.getJSON();
-        //----设置文件名----
-        //格式化日期
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
-        //文件名，例：userId_2021-03-29 11：38：30_阿巴阿巴.jpg
-        String fileName = user.getId() + "_" + sdf.format(new Date()) + "_" + file.getOriginalFilename();
-        //win文件名不能有<>?:"/\|*
-        Pattern r = Pattern.compile("\\/.?\"<>|: "); //空格也一起匹配了
-        fileName = r.matcher(fileName).replaceAll("");
-        //----设置文件名----
-        File folder = new File(Constants.LOCAL_PROFILE_BASE_PATH);
-        targetFile = new File(Constants.LOCAL_PROFILE_BASE_PATH, fileName);
-        //检查文件夹是否存在
-        if (!folder.exists())
-            folder.mkdirs();
-        //保存文件，当前模式会覆盖旧文件
-        try {
-            file.transferTo(targetFile);
-            System.out.println(Constants.LOCAL_PROFILE_BASE_PATH + fileName);
-            //设置用户图片url
-            user.setProfile(Constants.SERVER_BASE_HTTP_URL + "/profile/" + fileName);
-            fileSaveSuccess = true;
-        } catch (IOException e) {
-            e.printStackTrace();
+        if(file!=null) {
+            //限制图片大小为5M
+            if (file.getSize() > 5 * 1024 * 1024)
+                return ResponseJSON.MAX_SIZE_ERROR.getJSON();
+            //----设置文件名----
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
+            //文件名，例：userId_2021-03-29 11：38：30_阿巴阿巴.jpg
+            String fileName = user.getId() + "_" + sdf.format(new Date()) + "_" + file.getOriginalFilename();
+            //win文件名不能有<>?:"/\|*
+            Pattern r = Pattern.compile("\\/.?\"<>|: "); //空格也一起匹配了
+            fileName = r.matcher(fileName).replaceAll("");
+            //----设置文件名----
+            File folder = new File(Constants.LOCAL_PROFILE_BASE_PATH);
+            targetFile = new File(Constants.LOCAL_PROFILE_BASE_PATH, fileName);
+            if (!folder.exists())
+                folder.mkdirs();
+            //保存文件，当前模式会覆盖旧文件
+            try {
+                file.transferTo(targetFile);
+                //设置用户图片url
+                user.setProfile(Constants.SERVER_BASE_HTTP_URL + "/profile/" + fileName);
+                fileSaveSuccess = true;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
-
         //如果更新数据库成功
         if (userService.updateById(user)) {
+            //因为不知道更新了什么，所以新用户信息从数据库加载
             //更新session里的用户信息并返回JSON
             User newUser = userService.selectById(user.getId());
             session.setAttribute(Constants.SESSION_USER, newUser);
@@ -170,7 +169,7 @@ public class UserController {
             comment.setFromUserNickname(newUser.getNickname());
             comment.setFromUserProfile(newUser.getProfile());
             commentService.updateFromUserByUserId(comment);
-
+            //有传图片，但是却保存失败
             if (file != null && !fileSaveSuccess)
                 return ResponseJSON.USER_UPDATE_SUCCESS_BUT_PROFILE_ERROR.getJSON(newUser);
             return ResponseJSON.SUCCESS.getJSON(newUser);
