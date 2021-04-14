@@ -30,7 +30,7 @@ public class MomentImageController {
             response.getOutputStream().write(momentImage.getImage());
         else {
             response.setContentType("application/json;charset=UTF-8");
-            response.getWriter().print("{\"code\":400,\"message\":\"错误\",\"data\":null}");
+            response.getWriter().print("{\"code\":400,\"message\":\"图片不存在\",\"data\":null}");
         }
     }
 }

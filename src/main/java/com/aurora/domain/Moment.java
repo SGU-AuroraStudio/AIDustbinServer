@@ -18,6 +18,8 @@ public class Moment {
 
     private Integer imageCount;
 
+    private List<String> imagesUrl;
+
     private Date createdTime;
 
     private Integer thumbCount;
@@ -85,6 +87,14 @@ public class Moment {
 
     public void setImageCount(Integer imageCount) {
         this.imageCount = imageCount;
+    }
+
+    public List<String> getImagesUrl() {
+        return imagesUrl;
+    }
+
+    public void setImagesUrl(List<String> imagesUrl) {
+        this.imagesUrl = imagesUrl;
     }
 
     public Date getCreatedTime() {

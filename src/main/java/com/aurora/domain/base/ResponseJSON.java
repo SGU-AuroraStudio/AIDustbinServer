@@ -13,6 +13,7 @@ public enum ResponseJSON {
     CHOOSE_RIGHT(200, "选择正确"),
     CHOOSE_WRONG(200, "选择错误"),
     FAIL(400, "失败"),
+    PARAM_ERROR(400, "参数错误"),
     NOT_LOGIN(400, "没有登录"),
     USER_EXITS(400, "用户已存在"),
     USER_INFO_ERROR(400, "用户名或密码错误"),

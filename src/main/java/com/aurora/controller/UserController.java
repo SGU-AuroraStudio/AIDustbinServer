@@ -9,6 +9,7 @@ import com.aurora.service.impl.CommentServiceImpl;
 import com.aurora.service.impl.MomentServiceImpl;
 import com.aurora.service.impl.UserServiceImpl;
 import com.aurora.util.RandomNickName;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,6 +26,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 import java.util.regex.Pattern;
+import org.apache.logging.log4j.LogManager;
 
 /**
  * @Author Yao
@@ -35,6 +37,7 @@ import java.util.regex.Pattern;
 @RequestMapping("/user")
 public class UserController {
 
+    private static final Logger log = LogManager.getLogger(UserController.class);
     @Autowired
     UserServiceImpl userService;
     @Autowired
@@ -108,17 +111,20 @@ public class UserController {
     @ResponseBody
     Map<String, Object> update(HttpServletRequest request, User user, MultipartFile file) {
         System.out.println("update...");
+        //TODO:临时调试用
+        log.debug(user.getNickname());
+        log.debug(user.getPassword());
+        log.debug(file);
         //判断是不是图片
-        if (file==null || !file.getContentType().contains("image"))
-            return ResponseJSON.FAIL.getJSON();
+        if (file!=null && !file.getContentType().contains("image"))
+            return ResponseJSON.PARAM_ERROR.getJSON();
         //判断用户是否为session中的用户
         HttpSession session = request.getSession();
         User loginUser = (User) session.getAttribute(Constants.SESSION_USER);
-        if (!loginUser.getId().equals(user.getId()))
-            return ResponseJSON.FAIL.getJSON();
-        File targetFile = null;
-        boolean fileSaveSuccess = false;
+        user.setId(loginUser.getId());
 
+        File targetFile;
+        boolean fileSaveSuccess = false;
         //尝试保存图片
         //限制图片大小为5M
         if (file.getSize() > 5 * 1024 * 1024)

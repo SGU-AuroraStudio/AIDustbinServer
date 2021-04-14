@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -44,6 +45,11 @@ public class MomentController {
         User user = (User) request.getSession().getAttribute(Constants.SESSION_USER);
         List<Moment> moments = momentService.selectAll();
         for (Moment moment : moments) {
+            //把图片链接拼接进去
+            List<String> imagesUrl = new LinkedList<>();
+            for(int i=1;i<=moment.getImageCount();i++)
+                imagesUrl.add(Constants.SERVER_BASE_HTTP_URL + "/moment/image/"+moment.getId()+"/"+i);
+            moment.setImagesUrl(imagesUrl);
             //把评论拼接到JSON里。减少前台请求次数
             moment.setComments(commentService.selectByMomentId(moment.getId()));
             //总点赞数
