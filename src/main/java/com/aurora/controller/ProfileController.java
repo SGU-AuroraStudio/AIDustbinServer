@@ -26,9 +26,15 @@ public class ProfileController {
         //-----图片转byte[] 开始-----
         File profile = new File(Constants.LOCAL_PROFILE_BASE_PATH + "/" + fileName);
         //检查图片存不存在，检查是否是用户的头像
-        User user = (User) request.getSession().getAttribute(Constants.SESSION_USER);
-        String userRealProfileName = user.getProfile().split("/")[5];
-        if (!profile.exists() || !userRealProfileName.equals(fileName)) {
+//        User user = (User) request.getSession().getAttribute(Constants.SESSION_USER);
+//        String userRealProfileName = user.getProfile().split("/")[5];
+//        if (!profile.exists() || !userRealProfileName.equals(fileName)) {
+//            response.setContentType("application/json;charset=UTF-8");
+//            response.getWriter().print("{\"code\":404,\"message\":\"资源不存在\",\"data\":null}");
+//            return;
+//        }
+        //不检测是否是用户的头像
+        if (!profile.exists()) {
             response.setContentType("application/json;charset=UTF-8");
             response.getWriter().print("{\"code\":404,\"message\":\"资源不存在\",\"data\":null}");
             return;

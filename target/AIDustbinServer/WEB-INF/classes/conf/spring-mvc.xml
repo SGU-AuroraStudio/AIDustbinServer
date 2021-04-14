@@ -20,7 +20,8 @@
             <mvc:exclude-mapping path="/user/login"/>
             <mvc:exclude-mapping path="/user/doLogin"/>
             <mvc:exclude-mapping path="/user/register"/>
-            <mvc:exclude-mapping path="/moment/image"/>
+            <mvc:exclude-mapping path="/profile/**"/>
+            <mvc:exclude-mapping path="/moment/image/**"/>
             <bean class="com.aurora.interceptor.SessionInterceptor"/>
         </mvc:interceptor>
     </mvc:interceptors>
