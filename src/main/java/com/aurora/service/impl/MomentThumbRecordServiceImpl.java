@@ -44,6 +44,7 @@ public class MomentThumbRecordServiceImpl implements IMomentThumbRecordService {
         MomentThumbRecordExample.Criteria criteria = example.createCriteria();
         criteria.andUserIdEqualTo(userId);
         criteria.andMomentIdEqualTo(momentId);
+        criteria.andDeletedEqualTo(false);
         List<MomentThumbRecord> list = momentThumbRecordMapper.selectByExample(example);
         if (list.size() == 0)
             return null;

@@ -29,7 +29,10 @@ public class MomentServiceImpl implements IMomentService {
 
     @Override
     public boolean deleteById(Integer id) {
-        return momentMapper.deleteByPrimaryKey(id) > 0;
+        Moment moment = new Moment();
+        moment.setId(id);
+        moment.setDeleted(true);
+        return momentMapper.updateByPrimaryKeySelective(moment) > 0;
     }
 
     @Override
@@ -44,7 +47,15 @@ public class MomentServiceImpl implements IMomentService {
 
     @Override
     public Moment selectById(Integer id) {
-        return momentMapper.selectByPrimaryKey(id);
+        //查询所有动态 moments
+        MomentExample example = new MomentExample();
+        MomentExample.Criteria criteria = example.createCriteria();
+        criteria.andIdEqualTo(id);
+        criteria.andDeletedEqualTo(false);
+        List<Moment> list = momentMapper.selectByExample(example);
+        if(list.size()==0)
+            return null;
+        return list.get(0);
     }
 
     @Override
