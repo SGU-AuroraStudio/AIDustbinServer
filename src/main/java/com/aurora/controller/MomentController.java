@@ -66,7 +66,7 @@ public class MomentController {
         User user = (User) request.getSession().getAttribute(Constants.SESSION_USER);
         Moment moment = momentService.selectById(id);
         //检查登录人id和动态的发表人id是否相同，不同就不给操作
-        if (moment.getUserId().equals(user.getId()))
+        if (!moment.getUserId().equals(user.getId()))
             return ResponseJSON.FAIL.getJSON();
         if (momentService.deleteById(id))
             return ResponseJSON.SUCCESS.getJSON();
