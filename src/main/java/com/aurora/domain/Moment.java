@@ -16,6 +16,8 @@ public class Moment {
 
     private String content;
 
+    //TODO:有了imagesUrl后，imageCount好像没什么用。。。
+    @JsonIgnore
     private Integer imageCount;
 
     private List<String> imagesUrl;

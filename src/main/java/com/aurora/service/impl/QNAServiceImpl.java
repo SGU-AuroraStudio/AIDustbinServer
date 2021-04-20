@@ -27,9 +27,9 @@ public class QNAServiceImpl implements IQNAService {
     @Override
     public boolean judge(Integer id, Integer choose) {
         QNAExample example = new QNAExample();
-        QNAExample.Criteria criteria = example.createCriteria();
-        criteria.andIdEqualTo(id);
-        criteria.andAnswerEqualTo(choose);
+        example.createCriteria()
+                .andIdEqualTo(id)
+                .andAnswerEqualTo(choose);
         List<QNA> list = qnaMapper.selectByExample(example);
         return list.size() > 0;
     }

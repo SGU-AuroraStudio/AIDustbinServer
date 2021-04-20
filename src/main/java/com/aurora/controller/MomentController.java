@@ -1,5 +1,6 @@
 package com.aurora.controller;
 
+import com.aurora.domain.Comment;
 import com.aurora.domain.Moment;
 import com.aurora.domain.MomentImage;
 import com.aurora.domain.User;
@@ -16,10 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @Author Yao
@@ -41,9 +39,12 @@ public class MomentController {
 
     @GetMapping
     @ResponseBody
-    public Map<String, Object> getMoments(HttpServletRequest request) {
+    public Map<String, Object> getMoments(HttpServletRequest request,@RequestParam Integer page) {
+        Integer limit=5;                   //查询条数，每页默认为5
+        int offset= limit*(page-1);        //起始位置
+
         User user = (User) request.getSession().getAttribute(Constants.SESSION_USER);
-        List<Moment> moments = momentService.selectAll();
+        List<Moment> moments = momentService.selectByLimit(offset, limit);
         for (Moment moment : moments) {
             //把图片链接拼接进去
             List<String> imagesUrl = new LinkedList<>();
@@ -51,7 +52,27 @@ public class MomentController {
                 imagesUrl.add(Constants.SERVER_BASE_HTTP_URL + "/moment/image/"+moment.getId()+"/"+i);
             moment.setImagesUrl(imagesUrl);
             //把评论拼接到JSON里。减少前台请求次数
-            moment.setComments(commentService.selectByMomentId(moment.getId()));
+            List<Comment> tempComments = commentService.selectByMomentId(moment.getId());
+            List<Comment> comments = new ArrayList<>();
+            Map<Integer,Comment> commentMap = new HashMap<>();
+            //因为是共用一个表，所以评论和回复都被获取下来，此时在同一级，根据baseCommentId给回复分配到Comment里
+            //一级评论的baseCommentId默认为0，更多级的不为零
+            for (Comment comment : tempComments) {
+                if(comment.getBaseCommentId()==0){
+                    commentMap.put(comment.getId(), comment);
+                }
+            }
+            for (Comment reply : tempComments) {
+                if(reply.getBaseCommentId()!=0){
+                    Comment newComment = commentMap.get(reply.getBaseCommentId());
+                    newComment.addReply(reply);
+                }
+            }
+            Set<Integer> keySet = commentMap.keySet();
+            for (Integer key : keySet) {
+                comments.add(commentMap.get(key));
+            }
+            moment.setComments(comments);
             //总点赞数
             moment.setThumbCount(momentThumbRecordService.selectCountByMomentId(moment.getId()));
             //用户是否点赞

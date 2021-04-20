@@ -12,15 +12,13 @@ import java.util.List;
 public interface ICommentService {
     boolean insert(Comment comment);
 
-    boolean deleteThisAndSonById(Integer id);
-
     boolean updateFromUserByUserId(Comment comment);
+
+    boolean deleteCommentById(Integer id);
 
     Comment selectById(Integer id);
 
     List<Comment> selectByMomentId(Integer momentId);
 
     Comment selectByIdAndMomentId(Integer id, Integer momentId);
-
-
 }

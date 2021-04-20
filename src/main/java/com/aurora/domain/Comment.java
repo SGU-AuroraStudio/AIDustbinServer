@@ -1,9 +1,10 @@
 package com.aurora.domain;
 
-import com.aurora.domain.base.CommentType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 
 public class Comment {
     private Integer id;
@@ -14,28 +15,33 @@ public class Comment {
 
     private String fromUserProfile;
 
+    @JsonIgnore
     private Integer momentId;
 
     private String content;
 
-    private Integer toCommentId;
+    private Integer baseCommentId;
 
-    private String commentType;
+    private Integer pid;
+
+    //数据库没有的字段
+    private List<Comment> replies = new LinkedList<>();
 
     private Date createdTime;
 
     @JsonIgnore
     private Boolean deleted;
 
-    public Comment() {
-    }
+    public Comment(){}
 
-    public Comment(String fromUserId, Integer momentId, String content, Integer toCommentId, CommentType commentType, Date createdTime) {
+    public Comment(String fromUserId, String fromUserNickname, String fromUserProfile, Integer momentId, String content, Integer baseCommentId, Integer pid, Date createdTime) {
         this.fromUserId = fromUserId;
+        this.fromUserNickname = fromUserNickname;
+        this.fromUserProfile = fromUserProfile;
         this.momentId = momentId;
         this.content = content;
-        this.toCommentId = toCommentId;
-        this.commentType = commentType.getType();
+        this.baseCommentId = baseCommentId;
+        this.pid = pid;
         this.createdTime = createdTime;
     }
 
@@ -60,7 +66,7 @@ public class Comment {
     }
 
     public void setFromUserNickname(String fromUserNickname) {
-        this.fromUserNickname = fromUserNickname;
+        this.fromUserNickname = fromUserNickname == null ? null : fromUserNickname.trim();
     }
 
     public String getFromUserProfile() {
@@ -68,7 +74,7 @@ public class Comment {
     }
 
     public void setFromUserProfile(String fromUserProfile) {
-        this.fromUserProfile = fromUserProfile;
+        this.fromUserProfile = fromUserProfile == null ? null : fromUserProfile.trim();
     }
 
     public Integer getMomentId() {
@@ -87,20 +93,32 @@ public class Comment {
         this.content = content == null ? null : content.trim();
     }
 
-    public Integer getToCommentId() {
-        return toCommentId;
+    public Integer getBaseCommentId() {
+        return baseCommentId;
     }
 
-    public void setToCommentId(Integer toCommentId) {
-        this.toCommentId = toCommentId;
+    public void setBaseCommentId(Integer baseCommentId) {
+        this.baseCommentId = baseCommentId;
     }
 
-    public String getCommentType() {
-        return commentType;
+    public Integer getPid() {
+        return pid;
     }
 
-    public void setCommentType(CommentType commentType) {
-        this.commentType = commentType.getType();
+    public void setPid(Integer pid) {
+        this.pid = pid;
+    }
+
+    public List<Comment> getReplies() {
+        return replies;
+    }
+
+    public void setReplies(List<Comment> replies) {
+        this.replies = replies;
+    }
+
+    public void addReply(Comment reply){
+        this.replies.add(reply);
     }
 
     public Date getCreatedTime() {

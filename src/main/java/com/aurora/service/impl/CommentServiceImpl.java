@@ -7,12 +7,13 @@ import com.aurora.service.ICommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * @Author Yao
  * @Date 2021/4/2 17:34
- * @Description
+ * @Description 评论和回复共用一个业务层、数据库表。评论为两级评论
  */
 @Service
 public class CommentServiceImpl implements ICommentService {
@@ -24,20 +25,17 @@ public class CommentServiceImpl implements ICommentService {
         return commentMapper.insertSelective(comment) > 0;
     }
 
-    /**
-     * 删除评论，和评论下的回复
-     *
-     * @param id 评论id
-     * @return true/false
-     */
-    @Override
-    public boolean deleteThisAndSonById(Integer id) {
-        return commentMapper.updateThisAndSonDeletedToTrue(id) > 0;
-    }
-
     @Override
     public boolean updateFromUserByUserId(Comment comment) {
         return commentMapper.updateFromUserByUserId(comment) > 0;
+    }
+
+    @Override
+    public boolean deleteCommentById(Integer id) {
+        Comment comment = new Comment();
+        comment.setId(id);
+        comment.setDeleted(true);
+        return commentMapper.updateByPrimaryKeySelective(comment) > 0;
     }
 
     @Override
@@ -48,19 +46,19 @@ public class CommentServiceImpl implements ICommentService {
     @Override
     public List<Comment> selectByMomentId(Integer momentId) {
         CommentExample example = new CommentExample();
-        CommentExample.Criteria criteria = example.createCriteria();
-        criteria.andMomentIdEqualTo(momentId);
-        criteria.andDeletedEqualTo(false);
-        return commentMapper.selectByExample(example);
+        example.createCriteria()
+                .andMomentIdEqualTo(momentId)
+                .andDeletedEqualTo(false);
+        ArrayList<Comment> comments = (ArrayList<Comment>) commentMapper.selectByExample(example);
+        return comments;
     }
 
     @Override
     public Comment selectByIdAndMomentId(Integer id, Integer momentId) {
         CommentExample example = new CommentExample();
-        CommentExample.Criteria criteria = example.createCriteria();
-        criteria.andIdEqualTo(id);
-        criteria.andMomentIdEqualTo(momentId);
-        criteria.andDeletedEqualTo(false);
+        example.createCriteria().andIdEqualTo(id)
+                .andMomentIdEqualTo(momentId)
+                .andDeletedEqualTo(false);
         List<Comment> list = commentMapper.selectByExample(example);
         if (list.size() == 0)
             return null;

@@ -23,7 +23,6 @@ import java.util.Map;
  * @Description
  */
 @Controller
-@RequestMapping("/moment/comment")
 public class CommentController {
     @Autowired
     CommentServiceImpl commentService;
@@ -40,43 +39,72 @@ public class CommentController {
             return ResponseJSON.SUCCESS.getJSON(comments);
     }
 
-    @PostMapping("/delete")
+    @PostMapping("/moment/comment/delete")
     @ResponseBody
     public Map<String, Object> deleteComment(HttpServletRequest request, Integer commentId) {
         User user = (User) request.getSession().getAttribute(Constants.SESSION_USER);
         Comment comment = commentService.selectById(commentId);
         if (!user.getId().equals(comment.getFromUserId()))
             return ResponseJSON.FAIL.getJSON();
-        commentService.deleteThisAndSonById(commentId);
+        commentService.deleteCommentById(commentId);
         return ResponseJSON.SUCCESS.getJSON();
     }
 
-    @PostMapping
+    /**
+     * 评论和回复的控制器分开。不分开也可以
+     * 评论功能，一级评论
+     *
+     */
+    @PostMapping("/moment/comment")
     @ResponseBody
-    public Map<String, Object> addComment(HttpServletRequest request, Integer momentId, @RequestParam(value = "toCommentId", required = false) Integer toCommentId, String content) {
+    public Map<String, Object> addComment(HttpServletRequest request,@RequestParam Integer momentId,@RequestParam String content) {
         //判断动态是否存在
         Moment moment = momentService.selectById(momentId);
         if (moment == null)
+            return ResponseJSON.MOMENT_NOT_FOUND.getJSON();
+        User user = (User) request.getSession().getAttribute(Constants.SESSION_USER);
+        Comment comment = new Comment(user.getId(), user.getNickname(), user.getProfile(), momentId, content, null, null,new Date());
+        if(commentService.insert(comment))
+            return ResponseJSON.SUCCESS.getJSON();
+        else
             return ResponseJSON.FAIL.getJSON();
+    }
+
+    /**
+     * 回复功能，即二级评论，评论别人的评论，最高二级，用@表示更高级的。类似微信朋友圈。
+     * @param momentId momentId。可以根据baseCommentId获取的，但是要多连接一次数据库，浪费。
+     * @param baseCommentId 在哪个评论下面
+     * @param pid 回复哪个二级评论。带pid的是3级或更高级评论
+     * @param content 内容
+     * @return
+     */
+    @PostMapping("/moment/reply")
+    @ResponseBody
+    public Map<String, Object> addReply(HttpServletRequest request,@RequestParam Integer momentId,@RequestParam Integer baseCommentId, Integer pid,@RequestParam String content) {
+        //判断动态是否存在
+        Moment moment = momentService.selectById(momentId);
+        if (moment == null)
+            return ResponseJSON.MOMENT_NOT_FOUND.getJSON();
+
+        //判断评论是否存在
+        Comment baseComment = commentService.selectById(baseCommentId);
+        if(baseComment == null)
+            return ResponseJSON.COMMENT_NOT_FOUND.getJSON();
+
+        //判断要回复的回复是否存在
+        //pid是parentId，目标应该是评论下的回复。有pid表示@某人
+        if(pid!=null){
+            Comment targetReply = commentService.selectByIdAndMomentId(pid, momentId);
+            if(targetReply==null)
+                return ResponseJSON.COMMENT_NOT_FOUND.getJSON();
+            if(targetReply.getBaseCommentId()==0)
+                return ResponseJSON.FAIL.getJSON();
+        }
 
         User user = (User) request.getSession().getAttribute(Constants.SESSION_USER);
-        Comment comment;
-        //评论分为comment和reply
-        //目标评论Id为空，说明是评论动态的，类型为comment
-        if (toCommentId == null) {
-            comment = new Comment(user.getId(), momentId, content, null, CommentType.comment, new Date());
-        } else {
-            //判断目标评论是否存在，类型为reply
-            Comment comment1 = commentService.selectByIdAndMomentId(toCommentId, momentId);
-            if (comment1 == null)
-                return ResponseJSON.COMMENT_NOT_FOUNT.getJSON();
-            comment = new Comment(user.getId(), momentId, content, toCommentId, CommentType.reply, new Date());
-        }
-        comment.setFromUserNickname(user.getNickname());
-        comment.setFromUserProfile(user.getProfile());
-        //插入，在xml里需要设置useGeneratedKeys="true" keyProperty="id"获取自增的id，否者为null
-        if (commentService.insert(comment))
-            return ResponseJSON.SUCCESS.getJSON(comment);
+        Comment reply = new Comment(user.getId(), user.getNickname(), user.getProfile(), momentId, content, baseCommentId, pid, new Date());
+        if(commentService.insert(reply))
+            return ResponseJSON.SUCCESS.getJSON();
         else
             return ResponseJSON.FAIL.getJSON();
     }

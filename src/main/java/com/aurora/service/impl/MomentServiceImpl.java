@@ -49,9 +49,9 @@ public class MomentServiceImpl implements IMomentService {
     public Moment selectById(Integer id) {
         //查询所有动态 moments
         MomentExample example = new MomentExample();
-        MomentExample.Criteria criteria = example.createCriteria();
-        criteria.andIdEqualTo(id);
-        criteria.andDeletedEqualTo(false);
+        example.createCriteria()
+                .andIdEqualTo(id)
+                .andDeletedEqualTo(false);
         List<Moment> list = momentMapper.selectByExample(example);
         if(list.size()==0)
             return null;
@@ -59,12 +59,11 @@ public class MomentServiceImpl implements IMomentService {
     }
 
     @Override
-    public List<Moment> selectAll() {
-        //查询所有动态 moments
+    public List<Moment> selectByLimit(Integer offset, Integer limit) {
+        //查询分页所有动态 moments
         MomentExample example = new MomentExample();
-        MomentExample.Criteria criteria = example.createCriteria();
-        criteria.andDeletedEqualTo(false);
-        List<Moment> moments = momentMapper.selectByExample(example);
-        return moments;
+        example.createCriteria().andDeletedEqualTo(false);
+        example.setOrderByClause("id limit "+limit+" offset "+offset);
+        return momentMapper.selectByExample(example);
     }
 }

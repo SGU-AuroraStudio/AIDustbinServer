@@ -4,8 +4,11 @@
   <resultMap id="BaseResultMap" type="com.aurora.domain.MomentThumbRecord">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="user_nickname" jdbcType="VARCHAR" property="userNickname" />
+    <result column="user_profile" jdbcType="VARCHAR" property="userProfile" />
     <result column="moment_id" jdbcType="INTEGER" property="momentId" />
     <result column="created_time" jdbcType="TIMESTAMP" property="createdTime" />
+    <result column="updated_time" jdbcType="TIMESTAMP" property="updatedTime" />
     <result column="deleted" jdbcType="BIT" property="deleted" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -38,8 +41,11 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, user_id, moment_id, created_time, deleted
+    id, user_id, user_nickname, user_profile, moment_id, created_time, updated_time, 
+    deleted
   </sql>
+
+  <!--查询点赞数-->
   <select id="selectCountByMomentId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
     SELECT COUNT(*) FROM moment_thumb_record WHERE deleted=0 AND moment_id=#{momentId};
   </select>
@@ -69,10 +75,12 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.aurora.domain.MomentThumbRecord">
-    insert into moment_thumb_record (id, user_id, moment_id, 
-      created_time, deleted)
-    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=VARCHAR}, #{momentId,jdbcType=INTEGER}, 
-      #{createdTime,jdbcType=TIMESTAMP}, #{deleted,jdbcType=BIT})
+    insert into moment_thumb_record (id, user_id, user_nickname, 
+      user_profile, moment_id, created_time, 
+      updated_time, deleted)
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=VARCHAR}, #{userNickname,jdbcType=VARCHAR}, 
+      #{userProfile,jdbcType=VARCHAR}, #{momentId,jdbcType=INTEGER}, #{createdTime,jdbcType=TIMESTAMP}, 
+      #{updatedTime,jdbcType=TIMESTAMP}, #{deleted,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="com.aurora.domain.MomentThumbRecord">
     insert into moment_thumb_record
@@ -83,11 +91,20 @@
       <if test="userId != null">
         user_id,
       </if>
+      <if test="userNickname != null">
+        user_nickname,
+      </if>
+      <if test="userProfile != null">
+        user_profile,
+      </if>
       <if test="momentId != null">
         moment_id,
       </if>
       <if test="createdTime != null">
         created_time,
+      </if>
+      <if test="updatedTime != null">
+        updated_time,
       </if>
       <if test="deleted != null">
         deleted,
@@ -100,11 +117,20 @@
       <if test="userId != null">
         #{userId,jdbcType=VARCHAR},
       </if>
+      <if test="userNickname != null">
+        #{userNickname,jdbcType=VARCHAR},
+      </if>
+      <if test="userProfile != null">
+        #{userProfile,jdbcType=VARCHAR},
+      </if>
       <if test="momentId != null">
         #{momentId,jdbcType=INTEGER},
       </if>
       <if test="createdTime != null">
         #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedTime != null">
+        #{updatedTime,jdbcType=TIMESTAMP},
       </if>
       <if test="deleted != null">
         #{deleted,jdbcType=BIT},
@@ -117,11 +143,20 @@
       <if test="userId != null">
         user_id = #{userId,jdbcType=VARCHAR},
       </if>
+      <if test="userNickname != null">
+        user_nickname = #{userNickname,jdbcType=VARCHAR},
+      </if>
+      <if test="userProfile != null">
+        user_profile = #{userProfile,jdbcType=VARCHAR},
+      </if>
       <if test="momentId != null">
         moment_id = #{momentId,jdbcType=INTEGER},
       </if>
       <if test="createdTime != null">
         created_time = #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedTime != null">
+        updated_time = #{updatedTime,jdbcType=TIMESTAMP},
       </if>
       <if test="deleted != null">
         deleted = #{deleted,jdbcType=BIT},
@@ -132,12 +167,17 @@
   <update id="updateByPrimaryKey" parameterType="com.aurora.domain.MomentThumbRecord">
     update moment_thumb_record
     set user_id = #{userId,jdbcType=VARCHAR},
+      user_nickname = #{userNickname,jdbcType=VARCHAR},
+      user_profile = #{userProfile,jdbcType=VARCHAR},
       moment_id = #{momentId,jdbcType=INTEGER},
       created_time = #{createdTime,jdbcType=TIMESTAMP},
+      updated_time = #{updatedTime,jdbcType=TIMESTAMP},
       deleted = #{deleted,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateDeletedReverseByUserIdAndMomentId" parameterType="java.lang.Integer">
+  <!--翻转点赞状态-->
+  <update id="updateDeletedReverseById" parameterType="java.lang.Integer">
     update moment_thumb_record set `deleted`=1-`deleted`,updated_time=now() where id=#{id};
   </update>
+
 </mapper>

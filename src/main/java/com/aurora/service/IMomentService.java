@@ -20,5 +20,5 @@ public interface IMomentService {
 
     Moment selectById(Integer id);
 
-    List<Moment> selectAll();
+    List<Moment> selectByLimit(Integer offset, Integer limit);
 }

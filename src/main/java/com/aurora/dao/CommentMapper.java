@@ -2,7 +2,6 @@ package com.aurora.dao;
 
 import com.aurora.domain.Comment;
 import com.aurora.domain.CommentExample;
-
 import java.util.List;
 
 public interface CommentMapper {
@@ -20,7 +19,5 @@ public interface CommentMapper {
 
     int updateByPrimaryKey(Comment record);
 
-    int updateThisAndSonDeletedToTrue(Integer id);
-
-    int updateFromUserByUserId(Comment comment);
+    int updateFromUserByUserId(Comment record);
 }

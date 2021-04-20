@@ -21,7 +21,8 @@ public enum ResponseJSON {
     CHOOSE_NOT_FOUND(400, "未知选项"),
     MAX_SIZE_ERROR(400, "文件大小超过限制"),
     MAX_FILE_COUNT_ERROR(400, "文件数量超过限制"),
-    COMMENT_NOT_FOUNT(400, "评论不存在"),
+    COMMENT_NOT_FOUND(400, "评论不存在"),
+    MOMENT_NOT_FOUND(400, "动态不存在"),
     NOT_FOUND_ERROR_404(404, "资源不存在"),
     UNKNOWN_ERROR(499, "未知错误"),
     SERVER_ERROR_500(500, "服务器错误");
