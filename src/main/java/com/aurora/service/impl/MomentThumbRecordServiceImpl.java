@@ -30,7 +30,7 @@ public class MomentThumbRecordServiceImpl implements IMomentThumbRecordService {
         if (momentThumbRecord == null)
             return false;
         else
-            return momentThumbRecordMapper.updateDeletedReverseByUserIdAndMomentId(momentThumbRecord.getId()) > 0;
+            return momentThumbRecordMapper.updateDeletedReverseById(momentThumbRecord.getId()) > 0;
     }
 
     @Override
@@ -41,10 +41,10 @@ public class MomentThumbRecordServiceImpl implements IMomentThumbRecordService {
     @Override
     public MomentThumbRecord selectByUserIdAndMomentId(String userId, Integer momentId) {
         MomentThumbRecordExample example = new MomentThumbRecordExample();
-        MomentThumbRecordExample.Criteria criteria = example.createCriteria();
-        criteria.andUserIdEqualTo(userId);
-        criteria.andMomentIdEqualTo(momentId);
-        criteria.andDeletedEqualTo(false);
+        example.createCriteria()
+                .andUserIdEqualTo(userId)
+                .andMomentIdEqualTo(momentId)
+                .andDeletedEqualTo(false);
         List<MomentThumbRecord> list = momentThumbRecordMapper.selectByExample(example);
         if (list.size() == 0)
             return null;
@@ -61,9 +61,24 @@ public class MomentThumbRecordServiceImpl implements IMomentThumbRecordService {
     @Override
     public List<MomentThumbRecord> selectByUserId(String userId) {
         MomentThumbRecordExample example = new MomentThumbRecordExample();
-        MomentThumbRecordExample.Criteria criteria = example.createCriteria();
-        criteria.andUserIdEqualTo(userId);
-        criteria.andDeletedEqualTo(false);
+        example.createCriteria()
+                .andUserIdEqualTo(userId)
+                .andDeletedEqualTo(false);
+        return momentThumbRecordMapper.selectByExample(example);
+    }
+
+    /**
+     * 根据动态id查询点赞记录
+     *
+     * @param momentId momentId
+     * @return
+     */
+    @Override
+    public List<MomentThumbRecord> selectByMomentId(Integer momentId) {
+        MomentThumbRecordExample example = new MomentThumbRecordExample();
+        example.createCriteria()
+                .andMomentIdEqualTo(momentId)
+                .andDeletedEqualTo(false);
         return momentThumbRecordMapper.selectByExample(example);
     }
 }

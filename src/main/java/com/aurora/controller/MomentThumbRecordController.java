@@ -8,12 +8,14 @@ import com.aurora.service.impl.MomentServiceImpl;
 import com.aurora.service.impl.MomentThumbRecordServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -38,7 +40,7 @@ public class MomentThumbRecordController {
      */
     @PostMapping
     @ResponseBody
-    public Map<String, Object> thumb(HttpServletRequest request, Integer momentId) {
+    public Map<String, Object> doThumb(HttpServletRequest request, Integer momentId) {
         //检查动态是否存在
         if (momentService.selectById(momentId) == null)
             return ResponseJSON.FAIL.getJSON();
@@ -47,7 +49,7 @@ public class MomentThumbRecordController {
         MomentThumbRecord momentThumbRecord = momentThumbRecordService.selectByUserIdAndMomentId(user.getId(), momentId);
         //如果点赞表没有记录
         if (momentThumbRecord == null) {
-            momentThumbRecord = new MomentThumbRecord(user.getId(), momentId, new Date());
+            momentThumbRecord = new MomentThumbRecord(user.getId(), user.getNickname(), user.getProfile(), momentId, new Date());
             if (momentThumbRecordService.insert(momentThumbRecord))
                 return ResponseJSON.SUCCESS.getJSON();
         }
@@ -57,6 +59,19 @@ public class MomentThumbRecordController {
                 return ResponseJSON.SUCCESS.getJSON();
         }
         return ResponseJSON.FAIL.getJSON();
+    }
+
+    /**
+     * 获取点赞记录
+     *
+     * @param momentId momentId
+     * @return JSON
+     */
+    @GetMapping
+    @ResponseBody
+    public Map<String, Object> getThumbRecord(Integer momentId) {
+        List<MomentThumbRecord> momentThumbRecords = momentThumbRecordService.selectByMomentId(momentId);
+        return ResponseJSON.SUCCESS.getJSON(momentThumbRecords);
     }
 
 }

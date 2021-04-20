@@ -235,6 +235,146 @@ public class MomentThumbRecordExample {
             return (Criteria) this;
         }
 
+        public Criteria andUserNicknameIsNull() {
+            addCriterion("user_nickname is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserNicknameIsNotNull() {
+            addCriterion("user_nickname is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserNicknameEqualTo(String value) {
+            addCriterion("user_nickname =", value, "userNickname");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserNicknameNotEqualTo(String value) {
+            addCriterion("user_nickname <>", value, "userNickname");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserNicknameGreaterThan(String value) {
+            addCriterion("user_nickname >", value, "userNickname");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserNicknameGreaterThanOrEqualTo(String value) {
+            addCriterion("user_nickname >=", value, "userNickname");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserNicknameLessThan(String value) {
+            addCriterion("user_nickname <", value, "userNickname");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserNicknameLessThanOrEqualTo(String value) {
+            addCriterion("user_nickname <=", value, "userNickname");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserNicknameLike(String value) {
+            addCriterion("user_nickname like", value, "userNickname");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserNicknameNotLike(String value) {
+            addCriterion("user_nickname not like", value, "userNickname");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserNicknameIn(List<String> values) {
+            addCriterion("user_nickname in", values, "userNickname");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserNicknameNotIn(List<String> values) {
+            addCriterion("user_nickname not in", values, "userNickname");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserNicknameBetween(String value1, String value2) {
+            addCriterion("user_nickname between", value1, value2, "userNickname");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserNicknameNotBetween(String value1, String value2) {
+            addCriterion("user_nickname not between", value1, value2, "userNickname");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserProfileIsNull() {
+            addCriterion("user_profile is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserProfileIsNotNull() {
+            addCriterion("user_profile is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserProfileEqualTo(String value) {
+            addCriterion("user_profile =", value, "userProfile");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserProfileNotEqualTo(String value) {
+            addCriterion("user_profile <>", value, "userProfile");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserProfileGreaterThan(String value) {
+            addCriterion("user_profile >", value, "userProfile");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserProfileGreaterThanOrEqualTo(String value) {
+            addCriterion("user_profile >=", value, "userProfile");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserProfileLessThan(String value) {
+            addCriterion("user_profile <", value, "userProfile");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserProfileLessThanOrEqualTo(String value) {
+            addCriterion("user_profile <=", value, "userProfile");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserProfileLike(String value) {
+            addCriterion("user_profile like", value, "userProfile");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserProfileNotLike(String value) {
+            addCriterion("user_profile not like", value, "userProfile");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserProfileIn(List<String> values) {
+            addCriterion("user_profile in", values, "userProfile");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserProfileNotIn(List<String> values) {
+            addCriterion("user_profile not in", values, "userProfile");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserProfileBetween(String value1, String value2) {
+            addCriterion("user_profile between", value1, value2, "userProfile");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserProfileNotBetween(String value1, String value2) {
+            addCriterion("user_profile not between", value1, value2, "userProfile");
+            return (Criteria) this;
+        }
+
         public Criteria andMomentIdIsNull() {
             addCriterion("moment_id is null");
             return (Criteria) this;
@@ -355,6 +495,66 @@ public class MomentThumbRecordExample {
             return (Criteria) this;
         }
 
+        public Criteria andUpdatedTimeIsNull() {
+            addCriterion("updated_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdatedTimeIsNotNull() {
+            addCriterion("updated_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdatedTimeEqualTo(Date value) {
+            addCriterion("updated_time =", value, "updatedTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdatedTimeNotEqualTo(Date value) {
+            addCriterion("updated_time <>", value, "updatedTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdatedTimeGreaterThan(Date value) {
+            addCriterion("updated_time >", value, "updatedTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdatedTimeGreaterThanOrEqualTo(Date value) {
+            addCriterion("updated_time >=", value, "updatedTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdatedTimeLessThan(Date value) {
+            addCriterion("updated_time <", value, "updatedTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdatedTimeLessThanOrEqualTo(Date value) {
+            addCriterion("updated_time <=", value, "updatedTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdatedTimeIn(List<Date> values) {
+            addCriterion("updated_time in", values, "updatedTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdatedTimeNotIn(List<Date> values) {
+            addCriterion("updated_time not in", values, "updatedTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdatedTimeBetween(Date value1, Date value2) {
+            addCriterion("updated_time between", value1, value2, "updatedTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdatedTimeNotBetween(Date value1, Date value2) {
+            addCriterion("updated_time not between", value1, value2, "updatedTime");
+            return (Criteria) this;
+        }
+
         public Criteria andDeletedIsNull() {
             addCriterion("deleted is null");
             return (Criteria) this;
@@ -424,7 +624,7 @@ public class MomentThumbRecordExample {
     }
 
     public static class Criterion {
-        private final String condition;
+        private String condition;
 
         private Object value;
 
@@ -438,7 +638,7 @@ public class MomentThumbRecordExample {
 
         private boolean listValue;
 
-        private final String typeHandler;
+        private String typeHandler;
 
         public String getCondition() {
             return condition;

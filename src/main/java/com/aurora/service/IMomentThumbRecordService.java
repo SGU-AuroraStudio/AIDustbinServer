@@ -19,4 +19,6 @@ public interface IMomentThumbRecordService {
     MomentThumbRecord selectByUserIdAndMomentId(String userId, Integer momentId);
 
     List<MomentThumbRecord> selectByUserId(String userId);
+
+    List<MomentThumbRecord> selectByMomentId(Integer momentId);
 }
